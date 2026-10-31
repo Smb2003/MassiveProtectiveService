@@ -200,12 +200,12 @@ export const Header: React.FC = () => {
       <header
         className={`fixed top-0 left-0 right-0 w-full z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#0B1325]/95 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.8)]'
-            : 'bg-[#0D172A]/90 backdrop-blur-md border-b border-white/[0.06]'
+            ? 'bg-[#0D2548]/95 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.8)]'
+            : 'bg-[#0D2548]/90 backdrop-blur-md border-b border-white/[0.06]'
         }`}
       >
         {/* Top Statutory Ribbon matching Screenshot */}
-        <div className="w-full bg-[#080E1C] border-b border-white/[0.05] py-1.5 px-4 sm:px-6">
+        <div className="w-full bg-[#080E1C] border-b border-white/[0.05] py-1.5 px-4 sm:px-6 sm:block hidden">
           <div className="max-w-7xl mx-auto flex items-center justify-between text-[11px] sm:text-xs font-sans text-zinc-400">
             <div className="flex items-center gap-2">
               <span className="text-zinc-300 font-medium tracking-wide">
@@ -345,7 +345,7 @@ export const Header: React.FC = () => {
               onClick={() => dispatch(toggleMobileMenu())}
               aria-expanded={isMobileMenuOpen}
               aria-label="Toggle navigation menu"
-              className="lg:hidden flex items-center justify-center p-2 rounded text-zinc-300 hover:text-white bg-[#0F172A] border border-white/10"
+              className="lg:hidden flex items-center justify-center p-2 rounded text-zinc-300 hover:text-white bg-[#0D2548] border border-white/10"
             >
               {isMobileMenuOpen ? (
                 <X className="w-5 h-5 text-[#D4AF37]" />
@@ -385,7 +385,7 @@ export const Header: React.FC = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 max-h-[85vh] bg-[#0A0E1A] border-t border-[#C5A880]/40 rounded-t-2xl z-50 p-6 flex flex-col justify-between overflow-y-auto lg:hidden shadow-[0_-8px_32px_rgba(0,0,0,0.9)]"
+              className="fixed bottom-0 left-0 right-0 max-h-[85vh] bg-[#0D2548] border-t border-[#C5A880]/40 rounded-t-2xl z-50 p-6 flex flex-col justify-between overflow-y-auto lg:hidden shadow-[0_-8px_32px_rgba(0,0,0,0.9)]"
             >
               {/* Drag Handle Indicator */}
               <div className="w-12 h-1.5 bg-zinc-600 rounded-full mx-auto mb-4 shrink-0" />

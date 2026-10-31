@@ -7,49 +7,37 @@ import Image from 'next/image';
 interface BrandLogoProps {
   className?: string;
   showSubtitle?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   className = '',
-  showSubtitle = true,
+  size = 'lg',
 }) => {
+  const heightClasses = {
+    sm: 'h-8 sm:h-9',
+    md: 'h-10 sm:h-11',
+    lg: 'h-14 sm:h-16',
+    xl: 'h-16 sm:h-20',
+  };
+
   return (
     <Link
       href="/"
       aria-label="Massive Protective Services - Elite Armed Security Home"
-      className={`group flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] rounded transition-transform duration-200 hover:scale-[1.01] ${className}`}
+      className={`group relative inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] rounded transition-transform duration-300 hover:scale-[1.02] ${className}`}
     >
-      {/* Heraldic Lion Crest Badge from Brand Reference */}
-      <div className="relative w-11 h-11 rounded-sm overflow-hidden bg-[#0D1527] border border-[#C5A880]/40 shadow-[0_0_15px_rgba(212,175,55,0.2)] group-hover:border-[#D4AF37] group-hover:shadow-[0_0_22px_rgba(212,175,55,0.35)] transition-all shrink-0">
+      <div
+        className={`relative ${heightClasses[size]} w-auto aspect-[2.44/1] overflow-hidden rounded-sm`}
+      >
         <Image
-          src="/images/mps_lion_logo.jpg"
-          alt="Massive Protective Services Lion Emblem"
+          src="/images/Massive%20Protective%20Services%20Lion%20Logo.png"
+          alt="Massive Protective Services"
           fill
-          sizes="44px"
-          className="object-cover"
           priority
+          sizes="(max-width: 640px) 160px, 240px"
+          className="object-contain object-left"
         />
-        {/* Subtle inner gold vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/40 to-transparent pointer-events-none" />
-      </div>
-
-      {/* Brand Wordmark - Serif Typography */}
-      <div className="flex flex-col">
-        <div className="font-serif tracking-[0.2em] uppercase leading-none">
-          <span className="text-[14px] sm:text-[15px] font-bold text-white group-hover:text-[#F5F5F7] transition-colors">
-            MASSIVE
-          </span>
-        </div>
-        <div className="font-serif tracking-[0.22em] uppercase leading-tight">
-          <span className="text-[12px] sm:text-[13px] font-normal text-zinc-300">
-            PROTECTIVE
-          </span>
-        </div>
-        <div className="font-serif tracking-[0.26em] uppercase leading-none">
-          <span className="text-[10px] sm:text-[11px] font-light text-[#C5A880]">
-            SERVICES
-          </span>
-        </div>
       </div>
     </Link>
   );

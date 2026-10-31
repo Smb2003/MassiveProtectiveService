@@ -37,10 +37,10 @@ export const ArmedSecurityHeroSection: React.FC = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center brightness-[0.85] contrast-[1.1]"
+          className="object-cover object-center brightness-[0.45] contrast-[1.01]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/30 to-[#070D18]/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/20 via-transparent to-[#070D18]/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/85 to-[#070D18]/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/90 via-transparent to-[#070D18]/90" />
       </div>
 
       {/* Main Hero Content */}

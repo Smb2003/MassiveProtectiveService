@@ -5,6 +5,7 @@ import StoreProvider from "@/store/provider";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
+import { SplashScreen } from "@/components/common/SplashScreen";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -76,6 +77,9 @@ export default function RootLayout({
       <body className="min-h-screen max-w-[100vw] overflow-x-clip flex flex-col bg-[#0A0A0A] text-[#F5F5F7]">
         <StoreProvider>
           <ErrorBoundary>
+            {/* Executive Loading Splash Screen with Lion Emblem (elitesecurity.pro style) */}
+            <SplashScreen />
+
             {/* Global Tactical Header with Blur Backdrop */}
             <Header />
 

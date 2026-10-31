@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
+import { BrandLogo } from './BrandLogo';
 
 const SERVICES_LINKS = [
   { label: 'Executive Protection', href: '/executive-protection' },
@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
   return (
     <footer
       aria-label="Site Footer"
-      className="relative w-full bg-[#0B1324] text-white overflow-hidden border-t border-[#C5A880]/30 select-text"
+      className="relative w-full bg-[#0D2548] text-white overflow-hidden border-t border-[#C5A880]/30 select-text"
     >
       {/* Ambient background glow */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-[#C5A880]/5 rounded-full blur-[140px] pointer-events-none" />
@@ -88,41 +88,8 @@ export const Footer: React.FC = () => {
             variants={itemVariants}
             className="lg:col-span-5 space-y-6 pr-0 lg:pr-8"
           >
-            {/* Logo Badge */}
-            <Link
-              href="/"
-              aria-label="Massive Protective Services Home"
-              className="group inline-flex items-center gap-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] rounded-sm transition-transform duration-300 hover:scale-[1.01]"
-            >
-              <div className="relative w-12 h-12 rounded-sm overflow-hidden bg-[#0D1527] border border-[#C5A880]/40 shadow-[0_0_15px_rgba(197,168,128,0.2)] group-hover:border-[#D4AF37] transition-all shrink-0">
-                <Image
-                  src="/images/mps_lion_logo.jpg"
-                  alt="Massive Protective Services Lion Emblem"
-                  fill
-                  sizes="48px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/40 to-transparent pointer-events-none" />
-              </div>
-
-              <div className="flex flex-col">
-                <div className="font-serif tracking-[0.2em] uppercase leading-none">
-                  <span className="text-base sm:text-[17px] font-bold text-white group-hover:text-[#F3E5D0] transition-colors">
-                    MASSIVE
-                  </span>
-                </div>
-                <div className="font-serif tracking-[0.22em] uppercase leading-tight">
-                  <span className="text-xs sm:text-[13px] font-normal text-zinc-300">
-                    PROTECTIVE
-                  </span>
-                </div>
-                <div className="font-serif tracking-[0.26em] uppercase leading-none">
-                  <span className="text-[10px] sm:text-[11px] font-light text-[#C5A880]">
-                    SERVICES
-                  </span>
-                </div>
-              </div>
-            </Link>
+            {/* Logo Badge matching Screenshot */}
+            <BrandLogo size="lg" />
 
             {/* Headline */}
             <h2 className="text-2xl sm:text-[28px] font-serif font-normal text-white leading-tight tracking-tight pt-1">

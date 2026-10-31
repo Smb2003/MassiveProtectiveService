@@ -36,7 +36,7 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       aria-label="Hero Overview"
-      className="relative w-full min-h-[92vh] sm:min-h-screen flex items-center justify-center overflow-hidden bg-[#0A0A0A]"
+      className="relative w-full min-h-0 sm:min-h-screen flex items-center justify-center overflow-hidden bg-[#0A0A0A]"
     >
       {/* Background Image: Estate Entrance at Dusk matching screenshot */}
       <div className="absolute inset-0 z-0">
@@ -51,12 +51,12 @@ export const HeroSection: React.FC = () => {
 
         {/* Ambient Darkened Gradient Overlays for High-Contrast Cinematic Legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#080E1C]/35 to-[#080E1C]/40" />
-        <div className="absolute inset-0 bg-black/10" />
+        <div className="absolute inset-0 bg-black/60" />
         <div className="absolute inset-0 bg-radial-at-c from-transparent via-[#0A0A0A]/40 to-[#0A0A0A]/50" />
       </div>
 
       {/* Main Hero Content Container */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-32 sm:pt-40 pb-20 sm:pb-28 text-center flex flex-col items-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-28 sm:pt-40 pb-6 sm:pb-28 text-center flex flex-col items-center">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -115,7 +115,7 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* Bottom Subtle Fade to Next Section */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-8 sm:h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent pointer-events-none" />
     </section>
   );
 };
