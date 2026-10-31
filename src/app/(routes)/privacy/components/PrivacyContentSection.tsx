@@ -97,7 +97,7 @@ export const PrivacyContentSection: React.FC = () => {
   return (
     <section
       aria-label="Privacy Policy Document Content"
-      className="relative w-full bg-[#0A111F] text-white py-16 sm:py-24 lg:py-28 overflow-hidden"
+      className="relative w-full bg-[#FFFFFF] text-black py-16 sm:py-24 lg:py-28 overflow-hidden"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -111,7 +111,7 @@ export const PrivacyContentSection: React.FC = () => {
             <motion.div
               key={sec.number}
               variants={itemVariants}
-              className="space-y-2.5 pb-8 sm:pb-10 border-b border-white/[0.06] last:border-b-0"
+              className="space-y-2.5 pb-8 sm:pb-10 border-b border-black/[0.4] last:border-b-0"
             >
               {/* Section Tag */}
               <span className="text-[11px] font-mono font-medium tracking-[0.25em] text-[#C5A880] uppercase block">
@@ -119,12 +119,12 @@ export const PrivacyContentSection: React.FC = () => {
               </span>
 
               {/* Section Heading */}
-              <h2 className="text-2xl sm:text-[26px] font-serif font-normal text-white leading-snug">
+              <h2 className="text-2xl sm:text-[26px] font-serif font-normal text-black leading-snug">
                 {sec.title}
               </h2>
 
               {/* Section Text */}
-              <p className="text-sm sm:text-base text-zinc-300 font-sans font-light leading-[1.85] pt-1">
+              <p className="text-sm sm:text-base text-black font-sans font-light leading-[1.85] pt-1">
                 {sec.content}
               </p>
             </motion.div>
