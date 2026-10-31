@@ -10,10 +10,10 @@ export const PrivacyHeroSection: React.FC = () => {
   return (
     <section
       aria-label="Privacy Policy Header"
-      className="relative w-full bg-[#070D35] text-white pt-28 sm:pt-36 pb-12 sm:pb-16 overflow-hidden border-b border-white/[0.08]"
+      className="relative w-full bg-[#070D35] text-white pt-22 sm:pt-27 pb-12 sm:pb-16 overflow-hidden border-b border-white/[0.08]"
     >
       {/* Top Credential Ribbon Bar matching Screenshot */}
-      <div className="w-full bg-[#070D18] border-y border-white/[0.06] py-3 px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+      <div className="w-full bg-[#070D18] border-y border-white/[0.06] py-3 px-4 sm:px-6 lg:px-8 sm:mb-16">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-start gap-6 sm:gap-10 text-xs font-mono text-zinc-300">
           <div className="flex items-center gap-2">
             <MapPin className="w-3.5 h-3.5 text-[#C5A880]" />
