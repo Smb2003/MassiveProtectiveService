@@ -1,0 +1,10 @@
+export { HeroSection } from './HeroSection';
+export { PhilosophyBanner, WhoWeAreSection } from './PhilosophyBanner';
+export { ServicesGrid } from './ServicesGrid';
+export { WhoWeProtectSection } from './WhoWeProtectSection';
+export { WhyMassiveProtectiveSection } from './WhyMassiveProtectiveSection';
+export { WhereWeOperateSection } from './WhereWeOperateSection';
+export { AboutMPSSection } from './AboutMPSSection';
+export { TestimonialsSection } from './TestimonialsSection';
+export { ProcessSection } from './ProcessSection';
+export { FinalCTASection } from './FinalCTASection';

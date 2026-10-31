@@ -1,0 +1,124 @@
+# MISSION BRIEF: Enterprise Web Development for Massive Protective Services (MPS)
+
+## 1. Project Context & Brand Standards
+You are developing the official high-end web platform for **Massive Protective Services (MPS)**, an elite armed security and executive protection agency headquartered in Delray Beach, Florida (FDACS License 81400200, Chapter 493, Florida Statutes).
+- **Territory:** Palm Beach, Broward, and Miami-Dade counties.
+- **Core Stance:** Zero unarmed guards, zero subcontracting, zero staffing agency fills. Florida Class G licensed armed operators only.
+- **Tone & Identity:** Stealth, prestige, impenetrable, sovereign, tactical luxury.
+- **Target Audience:** Ultra-high-net-worth individuals (UHNWI), celebrities, private equity executives, family offices, and luxury estate owners.
+- **Services:** Executive Protection (with armed driving), Estate & Residential Security, Event Security (Art Basel, The Season), VIP & Celebrity Protection, Armed Security Officers, Concierge Security.
+
+---
+
+## 2. Multi-Agent Collaboration Protocol (`WORKFLOW_LOG.md`)
+To maintain seamless multi-agent context:
+1. Maintain a persistent root file named `WORKFLOW_LOG.md`.
+2. Every agent **must** read `WORKFLOW_LOG.md` before executing any task.
+3. Every agent **must** append a log entry upon completion using this exact schema:
+   - **Agent ID / Role:** (e.g., Agent 1 - System Architect, Agent 2 - UI & Motion)
+   - **Timestamp:** YYYY-MM-DD HH:MM
+   - **Completed Tasks:** Bulleted summary of features/files modified.
+   - **Decisions & Context:** Key state, naming, or architectural choices made.
+   - **Known Edge Cases Handled:** Specific conditions guarded against.
+   - **Next Actions for Subsequent Agent:** Clear handover notes.
+
+---
+
+## 3. Technology Stack & Architectural Structure
+- **Framework:** Next.js (App Router) or Vite + React (TypeScript only, strict mode enabled).
+- **Styling:** Tailwind CSS with centralized theme variables.
+- **Animations:** Framer Motion (micro-interactions, text reveal, scroll-driven transitions).
+- **Forms & Validation:** React Hook Form + Zod.
+- **State Management:** Redux Toolkit (modal states, active navigation, secure inquiry draft).
+- **Testing:** Vitest / Jest + React Testing Library (results written to `tests/audit-report.md`).
+
+### Required Directory Layout:
+src/
+├── app/ or pages/
+│   ├── (routes)/
+│   │   ├── home/
+│   │   │   ├── components/      # Route-specific sections (Hero, ServicesGrid, etc.)
+│   │   │   └── page.tsx
+│   │   ├── executive-protection/
+│   │   ├── estate-security/
+│   │   ├── celebrity-protection/
+│   │   ├── contact/
+│   │   └── ...
+├── components/
+│   ├── common/                  # Header, Footer, BrandLogo, ShieldBadge
+│   ├── ui/                      # Button, Input, Modal, ErrorBoundary, Loader
+│   └── feedback/                # Toast, NetworkStatus, AlertBanner
+├── store/                       # Redux Toolkit slices and root store
+├── theme/
+│   └── tokens.ts                # Single source of truth for colors, typography, spacing
+├── hooks/                       # Custom hooks (e.g., useDebouncedSubmit, useWindowSize)
+├── schemas/                     # Zod validation schemas
+├── tests/                       # Unit, integration, and security test suites
+└── utils/                       # Security sanitizers, rate limit helpers, formatting
+
+
+---
+
+## 4. Design System & Theme Engine
+- Define all design tokens in `src/theme/tokens.ts`:
+  - `matteBlack: "#0A0A0A"`
+  - `deepCarbon: "#121212"`
+  - `graphite: "#1F1F1F"`
+  - `tacticalGray: "#3A3D40"`
+  - `slateGold: "#C5A880"`
+  - `metallicGold: "#D4AF37"`
+  - `armorWhite: "#F5F5F7"`
+  - `alertRed: "#8B1E1E"`
+- Bind tokens directly into Tailwind configuration (`tailwind.config.js`) so theme changes cascade globally from one file.
+
+---
+
+## 5. Responsive Design & Layout Rigor
+- **Zero Horizontal Overflow:** Enforce `overflow-x: clip` or `overflow-x: hidden` on layout containers. Use fluid sizing (`rem`, `clamp()`, `dvh`/`svh`).
+- **Breakpoints:** Must render cleanly across mobile (320px–428px), tablets (768px–1024px), laptops (1280px–1440px), and ultrawide screens (1920px+).
+- **Accessibility:** Semantic HTML tags (`<main>`, `<header>`, `<nav>`, `<article>`, `<section>`). Full keyboard navigability and ARIA attributes for modals and menus.
+
+---
+
+## 6. Motion & Animation Standards
+- **Framer Motion Rules:**
+  - Header: Shrink and blur backdrop on scroll down (`backdrop-blur-md`).
+  - Text Animations: Staggered reveal for hero headlines.
+  - Scroll Reveals: Smooth fade-up / scale-in using `whileInView` with `viewport: { once: true, amount: 0.2 }`.
+  - Drag Interactions: Modals and bottom sheets must support drag-down-to-dismiss (`drag="y"`, `dragConstraints={{ top: 0 }}`).
+  - Accessibility: Honor `prefers-reduced-motion` to disable aggressive transitions.
+
+---
+
+## 7. Form Engineering, Idempotency & Edge Cases
+All input forms (consultations, VIP dispatch, NDA requests, contact) must satisfy:
+1. **Double-Submit / Debounce Lock:**
+   - Buttons must disable instantly on click with an idempotency lock.
+   - Show an embedded tactical loading spinner with status text (e.g., "Securing Transmission...").
+   - Drop duplicate clicks until the network request resolves or times out.
+2. **Timeout Handling:**
+   - Enforce an 8-to-10-second client-side abort timeout.
+   - On timeout, render an inline fallback banner providing direct emergency dispatch contact details.
+3. **Validation & Sanitization:**
+   - Zod validation for county selectors, phone numbers (E.164), and emails.
+   - Client-side sanitization against XSS/injections before dispatch.
+4. **Resilience & Error Boundaries:**
+   - Route- and form-level Error Boundaries rendering: *"Encrypted Channel Temporarily Unavailable — Call Priority Dispatch"*.
+
+---
+
+## 8. Security Hardening
+- Strip all debug logs, internal notes, and stack traces in production builds.
+- Ensure strict CSP headers, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`.
+- Never use `dangerouslySetInnerHTML` for any user-supplied content.
+- Never store NDA data or private addresses in unencrypted `localStorage` or `sessionStorage`.
+
+---
+
+## 9. Automated Testing & Verification
+- Unit and integration tests covering:
+  - Form validation edge cases and schema rejections.
+  - Double-click debounce verification (only 1 submission triggers).
+  - API timeout and network failure fallbacks.
+  - Zero-horizontal-scroll assertions across common viewports.
+- Export all test runs and security audit logs to `tests/audit-report.md`.

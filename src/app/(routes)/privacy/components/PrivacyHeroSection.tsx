@@ -1,0 +1,72 @@
+'use client';
+
+import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { MapPin, Shield, Clock } from 'lucide-react';
+
+export const PrivacyHeroSection: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <section
+      aria-label="Privacy Policy Header"
+      className="relative w-full bg-[#0A111F] text-white pt-28 sm:pt-36 pb-12 sm:pb-16 overflow-hidden border-b border-white/[0.08]"
+    >
+      {/* Top Credential Ribbon Bar matching Screenshot */}
+      <div className="w-full bg-[#070D18] border-y border-white/[0.06] py-3 px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-start gap-6 sm:gap-10 text-xs font-mono text-zinc-300">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-3.5 h-3.5 text-[#C5A880]" />
+            <span className="tracking-wider uppercase">DELRAY BEACH HQ</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Shield className="w-3.5 h-3.5 text-[#C5A880]" />
+            <span className="tracking-wider uppercase">FL LICENSE B1400200</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Clock className="w-3.5 h-3.5 text-[#C5A880]" />
+            <span className="tracking-wider uppercase">SERVING PALM BEACH COUNTY 24/7</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 sm:space-y-6">
+        {/* Eyebrow */}
+        <motion.div
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="text-xs sm:text-[13px] font-mono font-medium tracking-[0.25em] text-[#C5A880] uppercase">
+            LEGAL
+          </span>
+        </motion.div>
+
+        {/* Title */}
+        <motion.h1
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.08 }}
+          className="text-4xl sm:text-6xl lg:text-[68px] font-serif font-normal text-white leading-tight tracking-tight"
+        >
+          Privacy Policy
+        </motion.h1>
+
+        {/* Meta details */}
+        <motion.p
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.16 }}
+          className="text-xs sm:text-sm text-zinc-400 font-sans font-light"
+        >
+          Massive Protective Services Inc. — Effective Date: [DATE] ·{' '}
+          <span className="text-[#C5A880]">Last Updated: [DATE]</span>
+        </motion.p>
+      </div>
+    </section>
+  );
+};
+
+export default PrivacyHeroSection;
