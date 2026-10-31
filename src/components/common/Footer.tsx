@@ -2,157 +2,258 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Shield, ShieldCheck, MapPin, Phone, Lock, FileText, CheckCircle2 } from 'lucide-react';
-import { BrandLogo } from './BrandLogo';
+import Image from 'next/image';
+import { motion, useReducedMotion } from 'framer-motion';
+
+const SERVICES_LINKS = [
+  { label: 'Executive Protection', href: '/executive-protection' },
+  { label: 'Bodyguard & Close Protection', href: '/executive-protection' },
+  { label: 'VIP & Celebrity Protection', href: '/celebrity-protection' },
+  { label: 'Estate & Residential Security', href: '/estate-security' },
+  { label: 'Yacht & Maritime Security', href: '/event-security' },
+  { label: 'Event Security', href: '/event-security' },
+  { label: 'Secure Transportation', href: '/executive-protection' },
+  { label: 'Armed Security Officers', href: '/armed-officers' },
+  {
+    label: 'Corporate Security & Workplace Violence Prevention',
+    href: '/corporate-security',
+  },
+  { label: 'Risk Assessment & Consulting', href: '/corporate-security' },
+];
+
+const AREAS_WE_SERVE = [
+  { label: 'Miami', href: '/#where-we-operate' },
+  { label: 'Miami Beach', href: '/#where-we-operate' },
+  { label: 'Fort Lauderdale', href: '/#where-we-operate' },
+  { label: 'Palm Beach', href: '/#where-we-operate' },
+  { label: 'West Palm Beach', href: '/#where-we-operate' },
+  { label: 'Boca Raton', href: '/#where-we-operate' },
+  { label: 'Delray Beach', href: '/#where-we-operate' },
+  { label: 'Aventura', href: '/#where-we-operate' },
+  { label: 'Sunny Isles Beach', href: '/#where-we-operate' },
+  { label: 'Jupiter', href: '/#where-we-operate' },
+];
+
+const THE_FIRM_LINKS = [
+  { label: 'About', href: '/about' },
+  { label: 'Testimonials', href: '/testimonials' },
+  { label: 'Case Studies', href: '/blog' },
+  { label: 'Careers', href: '/careers' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'FAQ', href: '/credentials' },
+  { label: 'Contact', href: '/contact' },
+];
 
 export const Footer: React.FC = () => {
-  return (
-    <footer className="w-full bg-[#0A0A0A] border-t border-white/[0.08] text-[#F5F5F7] overflow-hidden">
-      {/* Main Footer Links & Context */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        {/* Col 1: Brand & Agency Identity */}
-        <div className="space-y-4">
-          <BrandLogo />
-          <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-sans">
-            Massive Protective Services delivers sovereign, tactical-luxury personal protection, armed convoy transport, and estate defense for ultra-high-net-worth principals, family offices, and VIPs across South Florida.
-          </p>
+  const prefersReducedMotion = useReducedMotion();
 
-          <div className="pt-2 text-xs font-mono space-y-1 text-zinc-400">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Headquarters: Delray Beach, Florida</span>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: prefersReducedMotion ? 0 : 0.08,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 14 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
+
+  return (
+    <footer
+      aria-label="Site Footer"
+      className="relative w-full bg-[#0B1324] text-white overflow-hidden border-t border-[#C5A880]/30 select-text"
+    >
+      {/* Ambient background glow */}
+      <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-[#C5A880]/5 rounded-full blur-[140px] pointer-events-none" />
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-40px' }}
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-8"
+      >
+        {/* Main 4-Column Grid matching Screenshot */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12">
+          {/* Column 1: Brand & Contact Info (lg:col-span-5) */}
+          <motion.div
+            variants={itemVariants}
+            className="lg:col-span-5 space-y-6 pr-0 lg:pr-8"
+          >
+            {/* Logo Badge */}
+            <Link
+              href="/"
+              aria-label="Massive Protective Services Home"
+              className="group inline-flex items-center gap-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] rounded-sm transition-transform duration-300 hover:scale-[1.01]"
+            >
+              <div className="relative w-12 h-12 rounded-sm overflow-hidden bg-[#0D1527] border border-[#C5A880]/40 shadow-[0_0_15px_rgba(197,168,128,0.2)] group-hover:border-[#D4AF37] transition-all shrink-0">
+                <Image
+                  src="/images/mps_lion_logo.jpg"
+                  alt="Massive Protective Services Lion Emblem"
+                  fill
+                  sizes="48px"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/40 to-transparent pointer-events-none" />
+              </div>
+
+              <div className="flex flex-col">
+                <div className="font-serif tracking-[0.2em] uppercase leading-none">
+                  <span className="text-base sm:text-[17px] font-bold text-white group-hover:text-[#F3E5D0] transition-colors">
+                    MASSIVE
+                  </span>
+                </div>
+                <div className="font-serif tracking-[0.22em] uppercase leading-tight">
+                  <span className="text-xs sm:text-[13px] font-normal text-zinc-300">
+                    PROTECTIVE
+                  </span>
+                </div>
+                <div className="font-serif tracking-[0.26em] uppercase leading-none">
+                  <span className="text-[10px] sm:text-[11px] font-light text-[#C5A880]">
+                    SERVICES
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Headline */}
+            <h2 className="text-2xl sm:text-[28px] font-serif font-normal text-white leading-tight tracking-tight pt-1">
+              Headquartered in Delray Beach, FL.
+            </h2>
+
+            {/* Paragraph */}
+            <p className="text-xs sm:text-sm text-zinc-300 font-sans font-light leading-relaxed max-w-md">
+              Discreet, professional protection for individuals, families and businesses across South Florida.
+            </p>
+
+            {/* License Line */}
+            <div className="pt-1">
+              <span className="text-[11px] sm:text-xs font-mono tracking-wider text-zinc-400 uppercase">
+                FL License B1400200 · LICENSED &amp; INSURED
+              </span>
             </div>
-            <div className="flex items-center gap-2">
-              <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <a href="tel:5615088833" className="hover:text-white transition-colors">
-                (561) 508-8833 (24/7 Priority)
+
+            {/* 24/7 Phone */}
+            <div>
+              <a
+                href="tel:9542347231"
+                className="inline-block text-xs sm:text-sm font-mono text-zinc-200 hover:text-[#D4AF37] transition-colors duration-200"
+              >
+                <span className="text-[#C5A880]">24/7</span> · (954) 234-7231
               </a>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Column 2: SERVICES (lg:col-span-3) */}
+          <motion.div variants={itemVariants} className="lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
+              SERVICES
+            </h3>
+            <ul className="space-y-2.5 text-xs sm:text-[13px] font-sans font-light">
+              {SERVICES_LINKS.map((link, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={link.href}
+                    className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5 leading-snug"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Column 3: AREAS WE SERVE (lg:col-span-2) */}
+          <motion.div variants={itemVariants} className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
+              AREAS WE SERVE
+            </h3>
+            <ul className="space-y-2.5 text-xs sm:text-[13px] font-sans font-light">
+              {AREAS_WE_SERVE.map((area, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={area.href}
+                    className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5"
+                  >
+                    {area.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Column 4: THE FIRM (lg:col-span-2) */}
+          <motion.div variants={itemVariants} className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
+              THE FIRM
+            </h3>
+            <ul className="space-y-2.5 text-xs sm:text-[13px] font-sans font-light">
+              {THE_FIRM_LINKS.map((firm, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={firm.href}
+                    className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5"
+                  >
+                    {firm.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
 
-        {/* Col 2: Armed Protection Services */}
-        <div>
-          <h4 className="text-xs uppercase tracking-[0.2em] font-mono font-bold text-[#D4AF37] mb-4">
-            Specialized Services
-          </h4>
-          <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-400 font-sans">
-            <li>
-              <Link href="/executive-protection" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5">
-                Executive Protection (Armed Driving)
-              </Link>
-            </li>
-            <li>
-              <Link href="/estate-security" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5">
-                Estate & Residential Security
-              </Link>
-            </li>
-            <li>
-              <Link href="/celebrity-protection" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5">
-                VIP & Celebrity Protection
-              </Link>
-            </li>
-            <li>
-              <Link href="/event-security" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5">
-                High-Stakes Event Security (Art Basel / The Season)
-              </Link>
-            </li>
-            <li>
-              <Link href="/armed-officers" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5">
-                Class G Armed Security Officers
-              </Link>
-            </li>
-            <li>
-              <Link href="/concierge-security" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5">
-                Elite Concierge & Penthouse Security
-              </Link>
-            </li>
-            <li>
-              <Link href="/corporate-security" className="hover:text-[#D4AF37] transition-colors flex items-center gap-1.5">
-                Corporate Security & Boardroom Defense
-              </Link>
-            </li>
-          </ul>
-        </div>
+        {/* Mid Section Tagline Note matching Screenshot */}
+        <motion.div
+          variants={itemVariants}
+          className="pt-6 pb-6 text-xs sm:text-[13px] font-sans font-light text-zinc-400"
+        >
+          <p>
+            Headquartered in Delray Beach, FL · Serving Palm Beach, Broward &amp; Miami-Dade Counties.
+          </p>
+        </motion.div>
 
-        {/* Col 3: Jurisdictional Territory */}
-        <div>
-          <h4 className="text-xs uppercase tracking-[0.2em] font-mono font-bold text-[#D4AF37] mb-4">
-            Tri-County Operational Grid
-          </h4>
-          <div className="space-y-3 text-xs sm:text-sm text-zinc-400 font-sans">
-            <div>
-              <span className="font-semibold text-zinc-200 block">Palm Beach County:</span>
-              <span className="text-zinc-500 text-xs">Palm Beach Island, Boca Raton, Delray Beach, Jupiter, Wellington equestrian compounds.</span>
-            </div>
-            <div>
-              <span className="font-semibold text-zinc-200 block">Broward County:</span>
-              <span className="text-zinc-500 text-xs">Fort Lauderdale Intracoastal, Las Olas, Weston estates, yacht basin security.</span>
-            </div>
-            <div>
-              <span className="font-semibold text-zinc-200 block">Miami-Dade County:</span>
-              <span className="text-zinc-500 text-xs">Star Island, Indian Creek, Fisher Island, Brickell, Coral Gables, Design District.</span>
-            </div>
-          </div>
-        </div>
+        {/* Bottom Full-Width Gold Divider Line matching Screenshot */}
+        <div className="w-full h-px bg-[#C5A880]/40 my-3" />
 
-        {/* Col 4: Statutory Compliance & Protocol */}
-        <div>
-          <h4 className="text-xs uppercase tracking-[0.2em] font-mono font-bold text-[#D4AF37] mb-4">
-            Compliance & Licensing
-          </h4>
-          <div className="space-y-3 text-xs text-zinc-400">
-            <div className="p-3 rounded bg-[#121212] border border-white/5 space-y-1.5">
-              <div className="flex items-center gap-1.5 text-zinc-300 font-mono font-medium">
-                <Lock className="w-3.5 h-3.5 text-[#C5A880]" />
-                FDACS LICENSE #81400200
-              </div>
-              <p className="text-[11px] leading-relaxed text-zinc-500">
-                Licensed and regulated under Chapter 493, Florida Statutes by the Florida Department of Agriculture and Consumer Services (Division of Licensing).
-              </p>
-            </div>
-
-            <div className="p-3 rounded bg-[#121212] border border-white/5 space-y-1.5">
-              <div className="flex items-center gap-1.5 text-zinc-300 font-mono font-medium">
-                <FileText className="w-3.5 h-3.5 text-[#C5A880]" />
-                Strict Non-Disclosure Protocol
-              </div>
-              <p className="text-[11px] leading-relaxed text-zinc-500">
-                All personnel operate under legally binding NDAs and classified security clearances. Client confidentiality is sovereign.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Statutory Footer Bottom Bar */}
-      <div className="w-full border-t border-white/[0.06] py-6 px-4 sm:px-6 bg-[#080808]">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] font-mono text-zinc-500">
-          <div>
-            © {new Date().getFullYear()} Massive Protective Services (MPS). All Rights Reserved. Regulated under Chapter 493, Florida Statutes.
-          </div>
-
-          <div className="flex items-center gap-5">
-            <Link href="/testimonials" className="hover:text-[#D4AF37] transition-colors">
-              Client Testimonials
-            </Link>
-            <span className="text-zinc-700">•</span>
-            <Link href="/privacy" className="hover:text-[#D4AF37] transition-colors">
+        {/* Bottom Copyright & Legal Links matching Screenshot */}
+        <motion.div
+          variants={itemVariants}
+          className="pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] sm:text-xs font-sans font-light text-zinc-400"
+        >
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>© 2026 Massive Protective Services Inc.</span>
+            <span>·</span>
+            <Link
+              href="/privacy"
+              className="hover:text-[#D4AF37] transition-colors duration-200"
+            >
               Privacy Policy
             </Link>
-            <span className="text-zinc-700">•</span>
-            <Link href="/terms" className="hover:text-[#D4AF37] transition-colors">
-              Terms of Engagement
+            <span>·</span>
+            <Link
+              href="/terms"
+              className="hover:text-[#D4AF37] transition-colors duration-200"
+            >
+              Terms
             </Link>
-            <span className="text-zinc-700">•</span>
-            <Link href="/licensing" className="hover:text-[#D4AF37] transition-colors">
-              Licensing #81400200
+            <span>·</span>
+            <Link
+              href="/privacy"
+              className="hover:text-[#D4AF37] transition-colors duration-200"
+            >
+              Accessibility
             </Link>
-            <span className="text-zinc-700">•</span>
-            <span className="text-[#C5A880]">FDACS Division of Licensing</span>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </footer>
   );
 };

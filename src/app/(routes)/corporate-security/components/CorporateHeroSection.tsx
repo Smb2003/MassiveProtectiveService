@@ -22,11 +22,11 @@ export const CorporateHeroSection: React.FC = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center brightness-[0.34] contrast-[1.12]"
+          className="object-cover object-center brightness-[0.74] contrast-[1.02]"
         />
         {/* Cinematic gradient overlays for text clarity and luxury mood */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/70 to-[#070D18]/60" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/80 via-transparent to-[#070D18]/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/30 to-[#070D18]/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/25 via-transparent to-[#070D18]/25" />
       </div>
 
       {/* Main Centered Content */}

@@ -38,8 +38,8 @@ export const ServiceHero: React.FC<Props> = ({ data }) => {
           sizes="100vw"
           className="object-cover object-center brightness-[0.99] contrast-[1.12]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/70 to-[#070D18]/55" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/80 via-[#070D18]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/20 to-[#070D18]/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/30 via-[#070D18]/20 to-transparent" />
       </div>
 
       {isLeftAligned ? (

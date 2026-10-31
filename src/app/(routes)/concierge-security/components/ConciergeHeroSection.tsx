@@ -22,10 +22,10 @@ export const ConciergeHeroSection: React.FC = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center brightness-[0.38] contrast-[1.15]"
+          className="object-cover object-center brightness-[0.78] contrast-[1.15]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/70 to-[#070D18]/55" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/85 via-transparent to-[#070D18]/85" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/30 to-[#070D18]/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/45 via-transparent to-[#070D18]/35" />
       </div>
 
       {/* Main Centered Content */}

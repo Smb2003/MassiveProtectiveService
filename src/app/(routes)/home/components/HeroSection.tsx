@@ -50,9 +50,9 @@ export const HeroSection: React.FC = () => {
         />
 
         {/* Ambient Darkened Gradient Overlays for High-Contrast Cinematic Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#080E1C]/65 to-[#080E1C]/80" />
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-0 bg-radial-at-c from-transparent via-[#0A0A0A]/40 to-[#0A0A0A]/90" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#080E1C]/35 to-[#080E1C]/40" />
+        <div className="absolute inset-0 bg-black/10" />
+        <div className="absolute inset-0 bg-radial-at-c from-transparent via-[#0A0A0A]/40 to-[#0A0A0A]/50" />
       </div>
 
       {/* Main Hero Content Container */}
