@@ -74,6 +74,19 @@ export const ServiceClosingCTA: React.FC<Props> = ({ data }) => {
             {secondaryCta.label}
           </a>
         </motion.div>
+
+        {/* Optional Disclaimer (Screen 10 School Security Reference) */}
+        {data?.disclaimer && (
+          <motion.p
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="pt-2 text-xs text-zinc-400 font-sans font-light"
+          >
+            {data.disclaimer}
+          </motion.p>
+        )}
       </div>
     </section>
   );

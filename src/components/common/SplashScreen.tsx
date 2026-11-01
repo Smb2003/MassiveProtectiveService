@@ -3,13 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-/**
- * Exact splash screen implementation based on reference: elitesecurity.pro
- * - Fullscreen dark luxury gradient backdrop
- * - Centered logo with the exact 1.3s pulse breathing animation (scale 0.96 -> 1.0, opacity 0.55 -> 1.0)
- * - Zero extra text, zero progress bars, zero clutter
- * - Fades out smoothly after ~2.2 seconds to reveal the UI
- */
 export const SplashScreen: React.FC = () => {
   const [isHiding, setIsHiding] = useState(false);
   const [isMounted, setIsMounted] = useState(true);

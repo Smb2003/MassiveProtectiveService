@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ServiceWhyMassiveData } from '../types';
+import { ServiceWhyMassiveData, ServiceWhyMassivePillar } from '../types';
 import { ServiceIcon } from '../ServiceIcon';
 
 interface Props {
   data?: ServiceWhyMassiveData;
 }
 
-const DEFAULT_PILLARS = [
+const DEFAULT_PILLARS: ServiceWhyMassivePillar[] = [
   {
     icon: 'check-circle',
     title: 'Florida Licensed Agency',
@@ -69,20 +69,22 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* Section Header */}
         <div className="max-w-4xl space-y-3">
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5 }}
-          >
-            <span
-              className={`text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] ${
-                isDark ? 'text-[#C5A880]' : 'text-zinc-500'
-              }`}
+          {data?.eyebrow && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5 }}
             >
-              {eyebrow}
-            </span>
-          </motion.div>
+              <span
+                className={`text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] ${
+                  isDark ? 'text-[#C5A880]' : 'text-[#C5A880]'
+                }`}
+              >
+                {data.eyebrow}
+              </span>
+            </motion.div>
+          )}
 
           <motion.h2
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
@@ -90,15 +92,62 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.6, delay: 0.08 }}
             className={`text-3xl sm:text-5xl lg:text-[52px] font-serif font-normal leading-tight tracking-tight ${
-              isDark ? 'text-white' : 'text-[#0A111F]'
+              isDark ? 'text-white' : 'text-[#151D2A]'
             }`}
           >
             {headline}
           </motion.h2>
         </div>
 
-        {/* Content: Vertical Bars (Executive Protection Screen 3) OR 3 Columns Grid */}
-        {data?.variant === 'vertical-bars' ? (
+        {/* Content: Bordered Cards (Screen 6 Reference) OR Vertical Bars OR 3 Columns Grid */}
+        {data?.variant === 'bordered-cards' ? (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+          >
+            {pillars.map((pillar, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className={`group relative ${
+                  isDark
+                    ? 'border border-white/[0.08] hover:border-[#C5A880]/40 bg-[#0E1728]/80 hover:bg-[#121E35] rounded-sm'
+                    : 'border border-[#C5A880] hover:border-[#D4AF37] bg-white/70 hover:bg-white rounded-none'
+                } p-7 sm:p-8 flex flex-col justify-start transition-all duration-300 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(197,168,128,0.18)] hover:-translate-y-1`}
+              >
+                {pillar.eyebrow && (
+                  <span className="text-[10px] sm:text-[11px] font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880] mb-3 block">
+                    {pillar.eyebrow}
+                  </span>
+                )}
+                {pillar.icon && (
+                  <div className="w-8 h-8 flex items-center justify-start text-[#C5A880] group-hover:text-[#D4AF37] transition-colors mb-4">
+                    <ServiceIcon name={pillar.icon} className="w-6 h-6 stroke-[1.6]" />
+                  </div>
+                )}
+                <h3
+                  className={`text-xl sm:text-2xl font-serif font-normal ${
+                    isDark
+                      ? 'text-white group-hover:text-[#F3E5D0]'
+                      : 'text-[#151D2A] group-hover:text-[#0A111F]'
+                  } transition-colors mb-4 leading-snug`}
+                >
+                  {pillar.title}
+                </h3>
+                <p
+                  className={`text-sm sm:text-[15px] font-sans font-light leading-relaxed ${
+                    isDark ? 'text-zinc-300' : 'text-[#4A5568]'
+                  }`}
+                >
+                  {pillar.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : data?.variant === 'vertical-bars' ? (
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -137,9 +186,11 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
                   isDark ? 'border-t border-white/10' : 'border-t border-zinc-200'
                 }`}
               >
-                <div className="w-10 h-10 flex items-center justify-start text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
-                  <ServiceIcon name={pillar.icon} className="w-6 h-6 stroke-[1.6]" />
-                </div>
+                {pillar.icon && (
+                  <div className="w-10 h-10 flex items-center justify-start text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
+                    <ServiceIcon name={pillar.icon} className="w-6 h-6 stroke-[1.6]" />
+                  </div>
+                )}
 
                 <h3
                   className={`text-xl sm:text-2xl font-serif font-normal group-hover:text-[#C5A880] transition-colors leading-snug ${
@@ -158,6 +209,51 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
                 </p>
               </motion.div>
             ))}
+          </motion.div>
+        )}
+
+        {/* Optional Footnote (Screen 6 Reference) */}
+        {data?.footerNote && (
+          <motion.p
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.5 }}
+            className={`text-xs sm:text-[13px] font-sans font-light leading-relaxed max-w-5xl pt-2 ${
+              isDark ? 'text-zinc-400' : 'text-[#64748B]'
+            }`}
+          >
+            {data.footerNote}
+          </motion.p>
+        )}
+
+        {/* Optional Footer Box (Screen 6 School Security Reference) */}
+        {data?.footerBox && (
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6 }}
+            className={`border rounded-none p-7 sm:p-9 space-y-3 ${
+              isDark
+                ? 'border-white/10 bg-[#111A2C]/60'
+                : 'border-[#C5A880]/40 bg-white/60'
+            }`}
+          >
+            <h4
+              className={`text-lg sm:text-xl font-serif font-normal leading-snug ${
+                isDark ? 'text-white' : 'text-[#151D2A]'
+              }`}
+            >
+              {data.footerBox.title}
+            </h4>
+            <p
+              className={`text-xs sm:text-[13.5px] font-sans font-light leading-relaxed ${
+                isDark ? 'text-zinc-300' : 'text-[#64748B]'
+              }`}
+            >
+              {data.footerBox.description}
+            </p>
           </motion.div>
         )}
       </div>

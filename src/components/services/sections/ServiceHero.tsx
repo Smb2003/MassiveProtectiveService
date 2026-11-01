@@ -220,7 +220,7 @@ export const ServiceHero: React.FC<Props> = ({ data }) => {
               href={data.secondaryCta.href}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 rounded-sm border border-white/25 hover:border-[#D4AF37] text-white hover:text-[#D4AF37] bg-black/40 backdrop-blur-sm font-semibold text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.25)] hover:scale-[1.02]"
             >
-              {data.secondaryCta.href.startsWith('tel:') && (
+              {data.secondaryCta.href.startsWith('tel:') && data.secondaryCta.icon !== 'none' && (
                 <Phone className="w-4 h-4 text-[#C5A880]" />
               )}
               <span>{data.secondaryCta.label}</span>
@@ -253,6 +253,30 @@ export const ServiceHero: React.FC<Props> = ({ data }) => {
                 );
               })}
             </motion.div>
+          )}
+
+          {/* Disclaimer (Screen 1 Reference) */}
+          {data.disclaimer && (
+            <motion.p
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.38 }}
+              className="text-xs sm:text-[13px] font-sans font-light text-zinc-300/90 pt-1"
+            >
+              {data.disclaimer}
+            </motion.p>
+          )}
+
+          {/* Footnote (Screen 1 Reference) */}
+          {data.footnote && (
+            <motion.p
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.44 }}
+              className="text-[10px] sm:text-[11px] font-sans text-zinc-400/80"
+            >
+              {data.footnote}
+            </motion.p>
           )}
         </div>
       )}

@@ -5,11 +5,13 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ServiceProcessData } from '../types';
 
 interface Props {
-  data: ServiceProcessData;
+  data?: ServiceProcessData;
 }
 
 export const ServiceProcessGrid: React.FC<Props> = ({ data }) => {
   const prefersReducedMotion = useReducedMotion();
+
+  if (!data) return null;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -38,16 +40,18 @@ export const ServiceProcessGrid: React.FC<Props> = ({ data }) => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         {/* Section Header */}
         <div className="max-w-4xl space-y-3">
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
-              {data.eyebrow}
-            </span>
-          </motion.div>
+          {data.eyebrow && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
+                {data.eyebrow}
+              </span>
+            </motion.div>
+          )}
 
           <motion.h2
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}

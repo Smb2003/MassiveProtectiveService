@@ -50,37 +50,79 @@ export const ServiceCredentials: React.FC<Props> = ({ data }) => {
           {data.headline || 'Licensed, Armed and Verifiable'}
         </motion.h2>
 
-        {/* 4 Cards Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"
-        >
-          {data.cards.map((card, idx) => (
-            <motion.div
-              key={idx}
-              variants={itemVariants}
-              className="bg-[#111A2C]/80 border border-white/[0.08] hover:border-[#C5A880]/40 rounded-sm p-7 sm:p-8 flex flex-col items-center text-center justify-center space-y-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
-            >
-              {/* Gold Icon */}
-              <div className="text-[#C5A880] mb-1">
-                <ServiceIcon name={card.icon} className="w-7 h-7 stroke-[1.6]" />
-              </div>
+        {/* Cards Grid: 3-column statement cards (Screen 7 Reference) OR 4-card badge grid */}
+        {data.variant === 'cards-3' ? (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+          >
+            {data.cards.map((card, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className="group relative bg-[#121E36]/90 hover:bg-[#15233E] border-t-2 border-[#C5A880] rounded-none p-7 sm:p-9 space-y-3.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.4)]"
+              >
+                <h3 className="text-xl sm:text-2xl font-serif font-normal text-white group-hover:text-[#C5A880] transition-colors leading-snug">
+                  {card.title || card.value}
+                </h3>
+                <p className="text-sm sm:text-[15px] font-sans font-light text-zinc-300 leading-relaxed">
+                  {card.description || card.label}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"
+          >
+            {data.cards.map((card, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className="bg-[#111A2C]/80 border border-white/[0.08] hover:border-[#C5A880]/40 rounded-sm p-7 sm:p-8 flex flex-col items-center text-center justify-center space-y-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+              >
+                {/* Gold Icon */}
+                {card.icon && (
+                  <div className="text-[#C5A880] mb-1">
+                    <ServiceIcon name={card.icon} className="w-7 h-7 stroke-[1.6]" />
+                  </div>
+                )}
 
-              {/* Card Label */}
-              <span className="text-xs sm:text-[13px] text-zinc-400 font-sans font-light">
-                {card.label}
-              </span>
+                {/* Card Label */}
+                {card.label && (
+                  <span className="text-xs sm:text-[13px] text-zinc-400 font-sans font-light">
+                    {card.label}
+                  </span>
+                )}
 
-              {/* Card Value */}
-              <span className="text-sm sm:text-base font-sans font-medium text-white tracking-wide">
-                {card.value}
-              </span>
-            </motion.div>
-          ))}
-        </motion.div>
+                {/* Card Value */}
+                <span className="text-sm sm:text-base font-sans font-medium text-white tracking-wide">
+                  {card.value || card.title}
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* Optional Footnote (Screen 7 Reference) */}
+        {data.footerNote && (
+          <motion.p
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.5 }}
+            className="text-xs sm:text-[13px] font-sans font-light text-zinc-400 max-w-5xl leading-relaxed pt-2"
+          >
+            {data.footerNote}
+          </motion.p>
+        )}
 
         {/* Verify Link */}
         {data.verifyLink && (

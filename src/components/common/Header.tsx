@@ -61,6 +61,36 @@ const NAV_STRUCTURE: NavCategory[] = [
         description: 'Boardroom defense, high-risk terminations & C-suite security',
         badge: 'Discreet',
       },
+      {
+        name: 'Loss Prevention',
+        href: '/loss-prevention',
+        description: 'Observant retail security, camera watch & inventory protection',
+        badge: 'Retail',
+      },
+      {
+        name: 'Mobile Patrol',
+        href: '/mobile-patrol',
+        description: 'Vehicle visits, perimeter checks & scheduled property sweeps',
+        badge: 'Patrol',
+      },
+      {
+        name: 'School Security',
+        href: '/school-security',
+        description: 'Campus access, visitor flow & welcoming community protection',
+        badge: 'Campus',
+      },
+      {
+        name: 'Unarmed Security Guards',
+        href: '/unarmed-security-guards',
+        description: 'Attentive access control, property patrols & front-of-house presence',
+        badge: 'Class D',
+      },
+      {
+        name: 'VIP & Celebrity Protection',
+        href: '/vip-celebrity-protection',
+        description: 'Discreet close protection, hotel arrivals & private travel',
+        badge: 'Discreet VIP',
+      },
     ],
   },
   {
@@ -159,6 +189,7 @@ export const Header: React.FC = () => {
   const isMobileMenuOpen = useAppSelector((state) => state.ui.isMobileMenuOpen);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [expandedMobileSection, setExpandedMobileSection] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
@@ -176,11 +207,16 @@ export const Header: React.FC = () => {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      setExpandedMobileSection(null);
     }
     return () => {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
+
+  const toggleMobileSection = (title: string) => {
+    setExpandedMobileSection((prev) => (prev === title ? null : title));
+  };
 
   const handleMouseEnter = (title: string) => {
     if (dropdownTimeoutRef.current) {
@@ -403,42 +439,137 @@ export const Header: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Mobile Navigation List */}
-                <div className="space-y-4">
-                  {NAV_STRUCTURE.map((section) => (
-                    <div key={section.title} className="space-y-1">
-                      {section.href ? (
+                {/* Mobile Navigation List - Expandable Accordions */}
+                <div className="space-y-2.5">
+                  {NAV_STRUCTURE.map((section) => {
+                    const hasItems = Boolean(section.items && section.items.length > 0);
+                    const isExpanded = expandedMobileSection === section.title;
+
+                    if (section.href) {
+                      return (
                         <Link
+                          key={section.title}
                           href={section.href}
                           onClick={() => dispatch(setMobileMenuOpen(false))}
-                          className="flex items-center justify-between py-2.5 px-3 rounded text-sm font-bold text-white hover:text-[#D4AF37] bg-[#101827] border border-white/5"
+                          className="flex items-center justify-between py-3 px-4 rounded-lg text-xs sm:text-sm font-semibold tracking-wider text-white hover:text-[#D4AF37] bg-[#101827]/90 hover:bg-[#16233B] border border-white/5 transition-all"
                         >
-                          <span>{section.title}</span>
+                          <span className="uppercase tracking-[0.12em]">{section.title}</span>
                           <ArrowRight className="w-4 h-4 text-[#C5A880]" />
                         </Link>
-                      ) : (
-                        <div className="text-[11px] font-mono uppercase tracking-widest text-[#C5A880] px-3 pt-2">
-                          {section.title}
-                        </div>
-                      )}
+                      );
+                    }
 
-                      {section.items && (
-                        <div className="grid grid-cols-1 gap-1 pl-2">
-                          {section.items.map((subItem) => (
-                            <Link
-                              key={subItem.name}
-                              href={subItem.href}
-                              onClick={() => dispatch(setMobileMenuOpen(false))}
-                              className="flex items-center justify-between py-2 px-3 rounded text-xs text-zinc-300 hover:text-white hover:bg-[#1A233A] transition-colors"
+                    return (
+                      <div
+                        key={section.title}
+                        className={`rounded-lg overflow-hidden border transition-colors ${
+                          isExpanded
+                            ? 'border-[#C5A880]/35 bg-[#0F182A]'
+                            : 'border-white/5 bg-[#101827]/70'
+                        }`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => toggleMobileSection(section.title)}
+                          aria-expanded={isExpanded}
+                          className={`w-full flex items-center justify-between py-3 px-4 text-xs sm:text-sm font-semibold tracking-wider transition-all ${
+                            isExpanded
+                              ? 'bg-[#15233E] text-[#D4AF37]'
+                              : 'text-zinc-200 hover:text-white hover:bg-[#152238]'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <span className="uppercase tracking-[0.12em]">{section.title}</span>
+                            {/* {section.items && (
+                              <span
+                                className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                                  isExpanded
+                                    ? 'bg-[#C5A880]/20 text-[#D4AF37] border-[#C5A880]/40'
+                                    : 'bg-white/5 text-zinc-400 border-white/10'
+                                }`}
+                              >
+                                {section.items.length}
+                              </span>
+                            )} */}
+                          </div>
+                          <ChevronDown
+                            className={`w-4 h-4 text-[#C5A880] transition-transform duration-300 ${
+                              isExpanded ? 'rotate-180 text-[#D4AF37]' : ''
+                            }`}
+                          />
+                        </button>
+
+                        <AnimatePresence initial={false}>
+                          {isExpanded && hasItems && (
+                            <motion.div
+                              key={`content-${section.title}`}
+                              initial={prefersReducedMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
+                              animate={{
+                                height: 'auto',
+                                opacity: 1,
+                                transition: {
+                                  height: {
+                                    duration: prefersReducedMotion ? 0 : 0.28,
+                                    ease: [0.04, 0.62, 0.23, 0.98],
+                                  },
+                                  opacity: {
+                                    duration: prefersReducedMotion ? 0 : 0.2,
+                                    delay: prefersReducedMotion ? 0 : 0.05,
+                                  },
+                                },
+                              }}
+                              exit={
+                                prefersReducedMotion
+                                  ? { opacity: 0 }
+                                  : {
+                                      height: 0,
+                                      opacity: 0,
+                                      transition: {
+                                        height: {
+                                          duration: 0.22,
+                                          ease: [0.04, 0.62, 0.23, 0.98],
+                                        },
+                                        opacity: { duration: 0.15 },
+                                      },
+                                    }
+                              }
+                              className="overflow-hidden bg-[#0A111F]/80 border-t border-white/5"
                             >
-                              <span>{subItem.name}</span>
-                              <ChevronDown className="w-3.5 h-3.5 -rotate-90 text-zinc-500" />
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                              <div className="p-2 space-y-1">
+                                {section.items?.map((subItem) => (
+                                  <Link
+                                    key={subItem.name}
+                                    href={subItem.href}
+                                    onClick={() => dispatch(setMobileMenuOpen(false))}
+                                    className="group flex items-center justify-between p-2.5 rounded-md hover:bg-[#1A253D] transition-colors"
+                                  >
+                                    <div className="flex flex-col pr-2">
+                                      <span className="text-xs font-medium text-zinc-300 group-hover:text-white transition-colors">
+                                        {subItem.name}
+                                      </span>
+                                      {subItem.description && (
+                                        <span className="text-[10px] text-zinc-400 group-hover:text-zinc-300 mt-0.5 line-clamp-1">
+                                          {subItem.description}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="flex items-center gap-1.5 shrink-0">
+                                      {subItem.badge && (
+                                        <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#C5A880]/15 text-[#D4AF37] border border-[#C5A880]/30">
+                                          {subItem.badge}
+                                        </span>
+                                      )}
+                                      <ArrowRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-[#D4AF37] group-hover:translate-x-0.5 transition-all" />
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* License details */}

@@ -37,8 +37,11 @@ export const ServicePageTemplate: React.FC<Props> = ({ config }) => {
       {/* 5. Regional Knowledge / Corridor Expertise (if configured) */}
       {config.corridor && <ServicePhilosophy data={config.corridor} />}
 
-      {/* 6. Process Roadmap (Our Process / 4 Steps) */}
-      <ServiceProcessGrid data={config.process} />
+      {/* 5b. Privacy / Discretion Protocol (Screen 5 Reference) */}
+      {config.privacy && <ServicePhilosophy data={config.privacy} />}
+
+      {/* 6. Process Roadmap (Our Process / 4 Steps, if configured) */}
+      {config.process && <ServiceProcessGrid data={config.process} />}
 
       {/* 7. Why Massive (What Separates Us) */}
       {config.whyMassive && <ServiceWhyMassive data={config.whyMassive} />}
@@ -46,7 +49,10 @@ export const ServicePageTemplate: React.FC<Props> = ({ config }) => {
       {/* 8. Verifiable Credentials & Licensing (if configured) */}
       {config.credentials && <ServiceCredentials data={config.credentials} />}
 
-      {/* 9. Coverage Area & Headquarters */}
+      {/* 9. Reporting Brief / Clarity Before First Visit (if configured) */}
+      {config.reporting && <ServicePhilosophy data={config.reporting} />}
+
+      {/* 10. Coverage Area & Footprint */}
       {config.serviceArea && <ServiceCoverageArea data={config.serviceArea} />}
 
       {/* 8. Dedicated Consultation Form */}

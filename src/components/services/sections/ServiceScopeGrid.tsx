@@ -40,17 +40,19 @@ export const ServiceScopeGrid: React.FC<Props> = ({ data }) => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* Section Header */}
-        <div className="max-w-3xl space-y-3">
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
-              {data.eyebrow}
-            </span>
-          </motion.div>
+        <div className="max-w-4xl space-y-3">
+          {data.eyebrow && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
+                {data.eyebrow}
+              </span>
+            </motion.div>
+          )}
 
           <motion.h2
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
@@ -61,6 +63,18 @@ export const ServiceScopeGrid: React.FC<Props> = ({ data }) => {
           >
             {data.headline}
           </motion.h2>
+
+          {data.subtitle && (
+            <motion.p
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.14 }}
+              className="text-sm sm:text-base text-zinc-300 font-sans font-light leading-relaxed max-w-3xl pt-1"
+            >
+              {data.subtitle}
+            </motion.p>
+          )}
         </div>
 
         {/* Cards Grid */}
@@ -73,39 +87,66 @@ export const ServiceScopeGrid: React.FC<Props> = ({ data }) => {
             data.columns === 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-3'
           } gap-6 sm:gap-8`}
         >
-          {data.cards.map((card, idx) => (
-            <motion.div
-              key={idx}
-              variants={itemVariants}
-              className="group relative bg-[#111A2C]/80 hover:bg-[#152238] border border-white/[0.07] hover:border-[#C5A880]/40 rounded-sm p-8 sm:p-9 flex flex-col justify-start transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:-translate-y-1"
-            >
-              {/* Top gold accent on hover */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C5A880]/0 group-hover:via-[#C5A880] to-transparent transition-all duration-500" />
+          {data.cards.map((card, idx) => {
+            const isMinimalGold = data.cardVariant === 'minimal-gold';
 
-              {/* Card Icon */}
-              <div className="w-12 h-12 rounded-sm bg-[#1A263D] border border-white/10 group-hover:border-[#C5A880]/50 flex items-center justify-center mb-6 text-[#C5A880] transition-colors duration-300">
-                <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
-              </div>
+            return (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className={`group relative ${
+                  isMinimalGold
+                    ? 'bg-[#0E1728]/70 hover:bg-[#121E35] border border-[#C5A880]/30 hover:border-[#C5A880]/70'
+                    : 'bg-[#111A2C]/80 hover:bg-[#152238] border border-white/[0.07] hover:border-[#C5A880]/40'
+                } rounded-sm p-8 sm:p-9 flex flex-col justify-start transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:-translate-y-1`}
+              >
+                {/* Top gold accent on hover */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C5A880]/0 group-hover:via-[#C5A880] to-transparent transition-all duration-500" />
 
-              {/* Card Title */}
-              <h3 className="text-xl sm:text-2xl font-serif font-normal text-white group-hover:text-[#F3E5D0] transition-colors mb-3 leading-snug">
-                {card.title}
-              </h3>
+                {/* Card Icon */}
+                {isMinimalGold ? (
+                  <div className="w-8 h-8 flex items-center justify-start mb-5 text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
+                    <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 rounded-sm bg-[#1A263D] border border-white/10 group-hover:border-[#C5A880]/50 flex items-center justify-center mb-6 text-[#C5A880] transition-colors duration-300">
+                    <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
+                  </div>
+                )}
 
-              {/* Card Description */}
-              <p className="text-sm sm:text-[15px] text-zinc-300 font-sans font-light leading-relaxed">
-                {card.description}
-              </p>
+                {/* Card Title */}
+                <h3 className="text-xl sm:text-2xl font-serif font-normal text-white group-hover:text-[#F3E5D0] transition-colors mb-3 leading-snug">
+                  {card.title}
+                </h3>
 
-              {/* Card Optional Footnote */}
-              {card.note && (
-                <p className="mt-5 pt-3 border-t border-white/10 text-xs text-zinc-400 font-sans leading-relaxed">
-                  {card.note}
+                {/* Card Description */}
+                <p className="text-sm sm:text-[15px] text-zinc-300 font-sans font-light leading-relaxed">
+                  {card.description}
                 </p>
-              )}
-            </motion.div>
-          ))}
+
+                {/* Card Optional Footnote */}
+                {card.note && (
+                  <p className="mt-5 pt-3 border-t border-white/10 text-xs text-zinc-400 font-sans leading-relaxed">
+                    {card.note}
+                  </p>
+                )}
+              </motion.div>
+            );
+          })}
         </motion.div>
+
+        {/* Optional Scope Footnote (Mobile Patrol Screen 3 Reference) */}
+        {data.footerNote && (
+          <motion.p
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.5 }}
+            className="text-xs sm:text-[13px] font-sans font-light text-zinc-400 pt-4 max-w-5xl"
+          >
+            {data.footerNote}
+          </motion.p>
+        )}
       </div>
     </section>
   );

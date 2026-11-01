@@ -38,6 +38,20 @@ import {
   Route,
   Search,
   BookOpen,
+  Monitor,
+  Package,
+  Key,
+  Radio,
+  Store,
+  ShoppingBag,
+  Boxes,
+  Footprints,
+  Phone,
+  ConciergeBell,
+  DoorOpen,
+  Mic,
+  Trophy,
+  CameraOff,
 } from 'lucide-react';
 
 export type ServiceIconName =
@@ -76,7 +90,22 @@ export type ServiceIconName =
   | 'compass'
   | 'route'
   | 'search'
-  | 'book-open';
+  | 'book-open'
+  | 'monitor'
+  | 'package'
+  | 'key'
+  | 'radio'
+  | 'store'
+  | 'shopping-bag'
+  | 'boxes'
+  | 'footprints'
+  | 'phone'
+  | 'bell'
+  | 'concierge-bell'
+  | 'door-open'
+  | 'mic'
+  | 'trophy'
+  | 'camera-off';
 
 interface Props {
   name: ServiceIconName | string;
@@ -121,6 +150,21 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   search: Search,
   'book-open': BookOpen,
   book: BookOpen,
+  monitor: Monitor,
+  package: Package,
+  key: Key,
+  radio: Radio,
+  store: Store,
+  'shopping-bag': ShoppingBag,
+  boxes: Boxes,
+  footprints: Footprints,
+  phone: Phone,
+  bell: ConciergeBell,
+  'concierge-bell': ConciergeBell,
+  'door-open': DoorOpen,
+  mic: Mic,
+  trophy: Trophy,
+  'camera-off': CameraOff,
 };
 
 export const ServiceIcon: React.FC<Props> = ({ name, className }) => {

@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ServicePhilosophyData } from '../types';
+import { ServiceIcon } from '../ServiceIcon';
 
 interface Props {
   data: ServicePhilosophyData;
@@ -12,17 +13,223 @@ export const ServicePhilosophy: React.FC<Props> = ({ data }) => {
   const prefersReducedMotion = useReducedMotion();
   const isCentered = data.variant === 'centered-gold-line';
   const isTwoColumn = data.variant === 'two-column-prose';
+  const isSplitHighlight = data.variant === 'split-highlight';
+  const isSplitFeatures = data.variant === 'split-features';
+  const isLight = data.theme === 'light';
 
   return (
     <section
       aria-label="Service Philosophy"
-      className="relative w-full bg-[#0B1324] py-20 sm:py-28 lg:py-32 text-white overflow-hidden border-t border-white/5"
+      className={`relative w-full ${
+        isLight ? 'bg-[#FAF8F5] text-[#151D2A]' : 'bg-[#0B1324] text-white'
+      } py-20 sm:py-28 lg:py-32 overflow-hidden border-t ${
+        isLight ? 'border-black/5' : 'border-white/5'
+      }`}
     >
       {/* Background ambient lighting accents */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C5A880]/5 rounded-full blur-3xl pointer-events-none" />
+      {!isLight && (
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C5A880]/5 rounded-full blur-3xl pointer-events-none" />
+      )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {isTwoColumn ? (
+        {isSplitFeatures ? (
+          /* Split-Features Layout with Horizontal Divider Rows (VIP Protection Screen 5 Reference) */
+          <div className="space-y-10 sm:space-y-12">
+            <div className="max-w-5xl space-y-3">
+              {data.eyebrow && (
+                <motion.div
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
+                    {data.eyebrow}
+                  </span>
+                </motion.div>
+              )}
+
+              <motion.h2
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.6, delay: 0.08 }}
+                className={`text-3xl sm:text-5xl lg:text-[54px] font-serif font-normal ${
+                  isLight ? 'text-[#151D2A]' : 'text-white'
+                } leading-[1.15] tracking-tight`}
+              >
+                {data.headline}
+              </motion.h2>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 pt-2 items-start">
+              {/* Left Column: Narrative Copy */}
+              <motion.div
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.6, delay: 0.16 }}
+                className={`lg:col-span-6 space-y-5 text-sm sm:text-base md:text-[17px] ${
+                  isLight ? 'text-[#4A5568]' : 'text-zinc-300'
+                } font-sans font-light leading-relaxed`}
+              >
+                {data.paragraph ? (
+                  <p>{data.paragraph}</p>
+                ) : (
+                  data.column1Paragraphs?.map((p, idx) => <p key={idx}>{p}</p>)
+                )}
+              </motion.div>
+
+              {/* Right Column: Divided Feature Rows */}
+              <motion.div
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="lg:col-span-6 divide-y divide-white/10 border-y border-white/10"
+              >
+                {data.featuresList?.map((feature, idx) => (
+                  <div key={idx} className="py-6 sm:py-7 flex items-start gap-4 sm:gap-5 group">
+                    {feature.icon && (
+                      <div className="text-[#C5A880] group-hover:text-[#D4AF37] transition-colors shrink-0 mt-0.5">
+                        <ServiceIcon name={feature.icon} className="w-6 h-6 stroke-[1.6]" />
+                      </div>
+                    )}
+                    <div className="space-y-1.5">
+                      <h3 className="text-xl sm:text-2xl font-serif font-normal text-[#C5A880] group-hover:text-[#D4AF37] transition-colors leading-snug">
+                        {feature.title}
+                      </h3>
+                      <p className="text-sm sm:text-[15px] font-sans font-light leading-relaxed text-zinc-300">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        ) : isSplitHighlight ? (
+          /* Split-Highlight Layout (Loss Prevention Screen 2 Reference) */
+          <div className="space-y-10 sm:space-y-12">
+            <div className="max-w-5xl">
+              {data.notice && (
+                <motion.div
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5 }}
+                  className="border-l-2 border-[#C5A880] pl-4 sm:pl-5 space-y-1 mb-6 sm:mb-8 max-w-3xl"
+                >
+                  <p
+                    className={`text-xs sm:text-[13px] font-sans font-medium ${
+                      isLight ? 'text-[#1E293B]' : 'text-zinc-200'
+                    }`}
+                  >
+                    {data.notice.title}
+                  </p>
+                  {data.notice.subtitle && (
+                    <p
+                      className={`text-xs sm:text-[13px] font-sans font-light ${
+                        isLight ? 'text-[#64748B]' : 'text-zinc-400'
+                      }`}
+                    >
+                      {data.notice.subtitle}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+
+              {data.eyebrow && (
+                <motion.div
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5 }}
+                  className="mb-4"
+                >
+                  <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
+                    {data.eyebrow}
+                  </span>
+                </motion.div>
+              )}
+
+              <motion.h2
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.6, delay: 0.08 }}
+                className={`text-3xl sm:text-5xl lg:text-[54px] font-serif font-normal ${
+                  isLight ? 'text-[#151D2A]' : 'text-white'
+                } leading-[1.15] tracking-tight`}
+              >
+                {data.headline}
+              </motion.h2>
+            </div>
+
+            {/* Split row: Left narrative, Right highlight card with vertical gold accent */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 pt-2 items-start">
+              <motion.div
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.6, delay: 0.16 }}
+                className={`lg:col-span-7 space-y-5 text-sm sm:text-base md:text-[17px] ${
+                  isLight ? 'text-[#4A5568]' : 'text-zinc-300'
+                } font-sans font-light leading-relaxed`}
+              >
+                {data.paragraph ? (
+                  <p>{data.paragraph}</p>
+                ) : (
+                  data.column1Paragraphs?.map((p, idx) => <p key={idx}>{p}</p>)
+                )}
+              </motion.div>
+
+              {data.highlightItems && data.highlightItems.length > 0 ? (
+                <motion.div
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.6, delay: 0.24 }}
+                  className="lg:col-span-5 border-l-2 sm:border-l-[2.5px] border-[#C5A880] pl-6 sm:pl-8 space-y-4 py-1"
+                >
+                  {data.highlightItems.map((item, idx) => (
+                    <p
+                      key={idx}
+                      className={`text-sm sm:text-base ${
+                        isLight ? 'text-[#151D2A]' : 'text-white'
+                      } font-sans font-normal leading-relaxed`}
+                    >
+                      {item}
+                    </p>
+                  ))}
+                </motion.div>
+              ) : data.highlightBox ? (
+                <motion.div
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.6, delay: 0.24 }}
+                  className="lg:col-span-5 border-l-2 sm:border-l-[2.5px] border-[#C5A880] pl-6 sm:pl-8 space-y-3"
+                >
+                  <h3
+                    className={`text-xl sm:text-2xl font-serif font-normal ${
+                      isLight ? 'text-[#151D2A]' : 'text-white'
+                    } leading-snug`}
+                  >
+                    {data.highlightBox.title}
+                  </h3>
+                  <p
+                    className={`text-sm sm:text-base ${
+                      isLight ? 'text-[#64748B]' : 'text-zinc-400'
+                    } font-sans font-light leading-relaxed`}
+                  >
+                    {data.highlightBox.description}
+                  </p>
+                </motion.div>
+              ) : null}
+            </div>
+          </div>
+        ) : isTwoColumn ? (
           /* Two-Column Prose Layout (Executive Security Screen 2 Reference) */
           <div className="space-y-10 sm:space-y-12">
             <div className="space-y-4 max-w-5xl">

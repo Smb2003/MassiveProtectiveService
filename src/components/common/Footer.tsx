@@ -18,6 +18,11 @@ const SERVICES_LINKS = [
     label: 'Corporate Security & Workplace Violence Prevention',
     href: '/corporate-security',
   },
+  { label: 'Loss Prevention & Retail Security', href: '/loss-prevention' },
+  { label: 'Mobile Patrol Services', href: '/mobile-patrol' },
+  { label: 'School & Campus Security', href: '/school-security' },
+  { label: 'Unarmed Security Guards', href: '/unarmed-security-guards' },
+  { label: 'VIP & Celebrity Protection', href: '/vip-celebrity-protection' },
   { label: 'Risk Assessment & Consulting', href: '/corporate-security' },
 ];
 

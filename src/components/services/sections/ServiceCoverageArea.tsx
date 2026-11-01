@@ -33,39 +33,117 @@ export const ServiceCoverageArea: React.FC<Props> = ({ data }) => {
     data?.footerNote ||
     "We serve South Florida's most exclusive coastal communities. Contact us for coverage beyond these areas or for multi-property programmes.";
 
+  const isLight = data?.theme === 'light';
+  const isCityCards = data?.variant === 'city-cards';
+  const citiesList =
+    data?.cities || [
+      'Miami',
+      'Miami Beach',
+      'Fort Lauderdale',
+      'Palm Beach',
+      'West Palm Beach',
+      'Boca Raton',
+      'Delray Beach',
+      'Aventura',
+      'Sunny Isles Beach',
+      'Jupiter',
+    ];
+
   const hasCities = (data?.citiesColumn1 && data.citiesColumn1.length > 0) || !data?.description;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: prefersReducedMotion ? 0 : 0.05,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 16 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
 
   return (
     <section
       aria-label="Service Area Coverage"
-      className="relative w-full bg-[#0B1324] py-20 sm:py-28 lg:py-32 text-white overflow-hidden border-t border-white/5"
+      className={`relative w-full ${
+        isLight ? 'bg-[#FAF8F5] text-[#151D2A]' : 'bg-[#0B1324] text-white'
+      } py-20 sm:py-28 lg:py-32 overflow-hidden border-t ${
+        isLight ? 'border-black/5' : 'border-white/5'
+      }`}
     >
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* Section Header */}
         <div className="max-w-4xl space-y-3">
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
-              {eyebrow}
-            </span>
-          </motion.div>
+          {data?.eyebrow && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
+                {eyebrow}
+              </span>
+            </motion.div>
+          )}
 
           <motion.h2
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.6, delay: 0.08 }}
-            className="text-3xl sm:text-5xl lg:text-[52px] font-serif font-normal text-white leading-[1.12] tracking-tight"
+            className={`text-3xl sm:text-5xl lg:text-[52px] font-serif font-normal leading-[1.12] tracking-tight ${
+              isLight ? 'text-[#151D2A]' : 'text-white'
+            }`}
           >
             {headline}
           </motion.h2>
+
+          {data?.subtitle && (
+            <motion.p
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.14 }}
+              className={`text-sm sm:text-base font-sans font-light leading-relaxed max-w-4xl pt-1 ${
+                isLight ? 'text-[#4A5568]' : 'text-zinc-300'
+              }`}
+            >
+              {data.subtitle}
+            </motion.p>
+          )}
         </div>
 
-        {hasCities ? (
+        {isCityCards ? (
+          /* 10 City Cards in 5-Column Grid (Screen 7 Reference) */
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6"
+          >
+            {citiesList.map((city, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className="group relative border border-[#C5A880] hover:border-[#D4AF37] bg-white/70 hover:bg-white rounded-none p-6 sm:p-7 min-h-[110px] sm:min-h-[130px] flex flex-col justify-start transition-all duration-300 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(197,168,128,0.18)] hover:-translate-y-1"
+              >
+                <h3 className="text-lg sm:text-xl font-serif font-normal text-[#151D2A] group-hover:text-[#0A111F] transition-colors leading-snug">
+                  {city}
+                </h3>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : hasCities ? (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Coastal Map Visualization */}
             <motion.div
