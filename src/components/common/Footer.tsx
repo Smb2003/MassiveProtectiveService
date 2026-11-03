@@ -4,61 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { BrandLogo } from './BrandLogo';
-
-const SERVICES_LINKS = [
-  { label: 'Executive Protection', href: '/executive-protection' },
-  { label: 'Bodyguard & Close Protection', href: '/executive-protection' },
-  { label: 'VIP & Celebrity Protection', href: '/celebrity-protection' },
-  { label: 'Estate & Residential Security', href: '/estate-security' },
-  { label: 'Yacht & Maritime Security', href: '/event-security' },
-  { label: 'Event Security', href: '/event-security' },
-  { label: 'Secure Transportation', href: '/executive-protection' },
-  { label: 'Armed Security Officers', href: '/armed-officers' },
-  {
-    label: 'Corporate Security & Workplace Violence Prevention',
-    href: '/corporate-security',
-  },
-  { label: 'Loss Prevention & Retail Security', href: '/loss-prevention' },
-  { label: 'Mobile Patrol Services', href: '/mobile-patrol' },
-  { label: 'School & Campus Security', href: '/school-security' },
-  { label: 'Unarmed Security Guards', href: '/unarmed-security-guards' },
-  { label: 'VIP & Celebrity Protection', href: '/vip-celebrity-protection' },
-  { label: 'Risk Assessment & Consulting', href: '/corporate-security' },
-];
-
-const AREAS_WE_SERVE = [
-  { label: 'Miami', href: '/locations/miami' },
-  { label: 'Miami Beach', href: '/locations/miami-beach' },
-  { label: 'Fort Lauderdale', href: '/locations/fort-lauderdale' },
-  { label: 'Hillsboro Beach', href: '/locations/hillsboro-beach' },
-  { label: 'Lighthouse Point', href: '/locations/lighthouse-point' },
-  { label: 'Palm Beach', href: '/locations/palm-beach' },
-  { label: 'West Palm Beach', href: '/locations/west-palm-beach' },
-  { label: 'Boca Raton', href: '/locations/boca-raton' },
-  { label: 'Delray Beach', href: '/locations/delray-beach' },
-  { label: 'Gulf Stream', href: '/locations/gulf-stream' },
-  { label: 'Manalapan', href: '/locations/manalapan' },
-  { label: 'Ocean Ridge', href: '/locations/ocean-ridge' },
-  { label: 'Boynton Beach', href: '/locations/boynton-beach' },
-  { label: 'Aventura', href: '/locations/aventura' },
-  { label: 'Jacksonville', href: '/locations/jacksonville' },
-  { label: 'Naples', href: '/locations/naples' },
-  { label: 'Orlando', href: '/locations/orlando' },
-  { label: 'Sarasota', href: '/locations/sarasota' },
-  { label: 'Tampa', href: '/locations/tampa' },
-  { label: 'Sunny Isles Beach', href: '/#where-we-operate' },
-  { label: 'Jupiter', href: '/#where-we-operate' },
-];
-
-const THE_FIRM_LINKS = [
-  { label: 'About', href: '/about' },
-  { label: 'Testimonials', href: '/testimonials' },
-  { label: 'Case Studies', href: '/blog' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'FAQ', href: '/credentials' },
-  { label: 'Contact', href: '/contact' },
-];
+import { SERVICES_NAV, LOCATIONS_NAV, RESOURCES_NAV } from '@/data/navigation';
 
 export const Footer: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -97,18 +43,18 @@ export const Footer: React.FC = () => {
         viewport={{ once: true, margin: '-40px' }}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-8"
       >
-        {/* Main 4-Column Grid matching Screenshot */}
+        {/* Main 4-Column Grid synchronized with Header Navigation */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12">
-          {/* Column 1: Brand & Contact Info (lg:col-span-5) */}
+          {/* Column 1: Brand & Contact Info (lg:col-span-3) */}
           <motion.div
             variants={itemVariants}
-            className="lg:col-span-5 space-y-6 pr-0 lg:pr-8"
+            className="lg:col-span-3 space-y-6 pr-0 lg:pr-4"
           >
-            {/* Logo Badge matching Screenshot */}
+            {/* Logo Badge */}
             <BrandLogo size="lg" />
 
             {/* Headline */}
-            <h2 className="text-2xl sm:text-[28px] font-serif font-normal text-white leading-tight tracking-tight pt-1">
+            <h2 className="text-2xl sm:text-[26px] font-serif font-normal text-white leading-tight tracking-tight pt-1">
               Headquartered in Delray Beach, FL.
             </h2>
 
@@ -135,57 +81,98 @@ export const Footer: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Column 2: SERVICES (lg:col-span-3) */}
+          {/* Column 2: SERVICES (lg:col-span-3) - Matches Header Services Submenu */}
           <motion.div variants={itemVariants} className="lg:col-span-3 space-y-4">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
-              SERVICES
-            </h3>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880]" />
+              <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
+                SERVICES
+              </h3>
+            </div>
             <ul className="space-y-2.5 text-xs sm:text-[13px] font-sans font-light">
-              {SERVICES_LINKS.map((link, idx) => (
-                <li key={idx}>
+              {SERVICES_NAV.map((link) => (
+                <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5 leading-snug"
                   >
-                    {link.label}
+                    {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </motion.div>
 
-          {/* Column 3: AREAS WE SERVE (lg:col-span-2) */}
-          <motion.div variants={itemVariants} className="lg:col-span-2 space-y-4">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
-              AREAS WE SERVE
-            </h3>
-            <ul className="space-y-2.5 text-xs sm:text-[13px] font-sans font-light">
-              {AREAS_WE_SERVE.map((area, idx) => (
-                <li key={idx}>
+          {/* Column 3: LOCATIONS (lg:col-span-4) - Matches Header Locations Submenu */}
+          <motion.div variants={itemVariants} className="md:col-span-2 lg:col-span-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880]" />
+                <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
+                  LOCATIONS
+                </h3>
+              </div>
+              <Link
+                href="/locations"
+                className="text-[11px] font-mono text-zinc-400 hover:text-[#D4AF37] transition-colors flex items-center gap-1 group"
+              >
+                <span>All Locations</span>
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              </Link>
+            </div>
+            {/* 2-Column Subgrid balancing 19 jurisdictions */}
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-[13px] font-sans font-light">
+              <ul className="space-y-2.5">
+                {LOCATIONS_NAV.slice(0, 10).map((area) => (
+                  <li key={area.href}>
+                    <Link
+                      href={area.href}
+                      className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5 leading-snug"
+                    >
+                      {area.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <ul className="space-y-2.5">
+                {LOCATIONS_NAV.slice(10).map((area) => (
+                  <li key={area.href}>
+                    <Link
+                      href={area.href}
+                      className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5 leading-snug"
+                    >
+                      {area.name}
+                    </Link>
+                  </li>
+                ))}
+                <li>
                   <Link
-                    href={area.href}
-                    className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5"
+                    href="/locations"
+                    className="text-[#C5A880] hover:text-[#D4AF37] font-medium transition-colors duration-200 block py-0.5 leading-snug"
                   >
-                    {area.label}
+                    Explore All (19) →
                   </Link>
                 </li>
-              ))}
-            </ul>
+              </ul>
+            </div>
           </motion.div>
 
-          {/* Column 4: THE FIRM (lg:col-span-2) */}
+          {/* Column 4: RESOURCES (lg:col-span-2) - Matches Header Resources Submenu */}
           <motion.div variants={itemVariants} className="lg:col-span-2 space-y-4">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
-              THE FIRM
-            </h3>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880]" />
+              <h3 className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-[#C5A880]">
+                RESOURCES
+              </h3>
+            </div>
             <ul className="space-y-2.5 text-xs sm:text-[13px] font-sans font-light">
-              {THE_FIRM_LINKS.map((firm, idx) => (
-                <li key={idx}>
+              {RESOURCES_NAV.map((resource) => (
+                <li key={resource.href + resource.name}>
                   <Link
-                    href={firm.href}
-                    className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5"
+                    href={resource.href}
+                    className="text-zinc-300 hover:text-[#D4AF37] transition-colors duration-200 block py-0.5 leading-snug"
                   >
-                    {firm.label}
+                    {resource.name}
                   </Link>
                 </li>
               ))}
