@@ -233,7 +233,7 @@ export const ServicePhilosophy: React.FC<Props> = ({ data }) => {
           /* Two-Column Prose Layout (Executive Security Screen 2 Reference) */
           <div className="space-y-10 sm:space-y-12">
             <div className="space-y-4 max-w-5xl">
-              {data.eyebrow && (
+              {data.eyebrow ? (
                 <motion.div
                   initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -244,14 +244,24 @@ export const ServicePhilosophy: React.FC<Props> = ({ data }) => {
                     {data.eyebrow}
                   </span>
                 </motion.div>
-              )}
+              ) : !data.hideTopBar ? (
+                <motion.div
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scaleX: 0 }}
+                  whileInView={{ opacity: 1, scaleX: 1 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.6 }}
+                  className="w-16 h-[2px] bg-[#C5A880] origin-left mb-6"
+                />
+              ) : null}
 
               <motion.h2
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.6, delay: 0.08 }}
-                className="text-3xl sm:text-5xl lg:text-[52px] font-serif font-normal text-white leading-[1.15] tracking-tight"
+                className={`text-3xl sm:text-5xl lg:text-[52px] font-serif font-normal ${
+                  isLight ? 'text-[#151D2A]' : 'text-white'
+                } leading-[1.15] tracking-tight`}
               >
                 {data.headline}
               </motion.h2>
@@ -264,7 +274,9 @@ export const ServicePhilosophy: React.FC<Props> = ({ data }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.6, delay: 0.16 }}
-                className="space-y-5 text-sm sm:text-base text-zinc-300 font-sans font-light leading-relaxed"
+                className={`space-y-5 text-sm sm:text-base md:text-[17px] ${
+                  isLight ? 'text-[#4A5568]' : 'text-zinc-300'
+                } font-sans font-light leading-relaxed`}
               >
                 {data.column1Paragraphs?.map((p, idx) => (
                   <p key={idx}>{p}</p>
@@ -276,7 +288,9 @@ export const ServicePhilosophy: React.FC<Props> = ({ data }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.6, delay: 0.24 }}
-                className="space-y-5 text-sm sm:text-base text-zinc-300 font-sans font-light leading-relaxed"
+                className={`space-y-5 text-sm sm:text-base md:text-[17px] ${
+                  isLight ? 'text-[#4A5568]' : 'text-zinc-300'
+                } font-sans font-light leading-relaxed`}
               >
                 {data.column2Paragraphs?.map((p, idx) => (
                   <p key={idx}>{p}</p>
@@ -285,13 +299,17 @@ export const ServicePhilosophy: React.FC<Props> = ({ data }) => {
             </div>
 
             {/* Bottom Subtle Gold Divider */}
-            <motion.div
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scaleX: 0 }}
-              whileInView={{ opacity: 1, scaleX: 1 }}
-              viewport={{ once: true, margin: '-20px' }}
-              transition={{ duration: 0.8 }}
-              className="w-full h-px bg-[#C5A880]/30 pt-0 mt-12 sm:mt-16 origin-left"
-            />
+            {!data.hideBottomDivider && (
+              <motion.div
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scaleX: 0 }}
+                whileInView={{ opacity: 1, scaleX: 1 }}
+                viewport={{ once: true, margin: '-20px' }}
+                transition={{ duration: 0.8 }}
+                className={`w-full h-px ${
+                  isLight ? 'bg-black/10' : 'bg-[#C5A880]/30'
+                } pt-0 mt-12 sm:mt-16 origin-left`}
+              />
+            )}
           </div>
         ) : isCentered ? (
           /* Centered layout matching Estate Security Screenshot 2 */

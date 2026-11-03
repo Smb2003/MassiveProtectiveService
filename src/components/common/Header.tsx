@@ -97,29 +97,128 @@ const NAV_STRUCTURE: NavCategory[] = [
     title: 'LOCATIONS',
     items: [
       {
-        name: 'Tri-County Grid Overview',
-        href: '/locations',
-        description: 'Rapid dispatch corridor throughout South Florida',
-      },
-      {
-        name: 'Palm Beach County',
+        name: 'Palm Beach',
         href: '/locations/palm-beach',
-        description: 'Palm Beach Island, Boca Raton, Delray Beach, Jupiter',
+        description: 'Oceanfront & lakefront estates, private clubs, The Season & Worth Ave',
+        badge: 'Island Estates',
       },
       {
-        name: 'Broward County',
-        href: '/locations/broward',
-        description: 'Fort Lauderdale Intracoastal, Las Olas, Weston',
+        name: 'West Palm Beach',
+        href: '/locations/west-palm-beach',
+        description: 'PBI arrivals, downtown financial towers, courthouse & executive protection',
+        badge: 'Executive',
       },
       {
-        name: 'Miami-Dade County',
-        href: '/locations/miami-dade',
-        description: 'Star Island, Indian Creek, Brickell, Coral Gables',
+        name: 'Delray Beach',
+        href: '/locations/delray-beach',
+        description: 'Agency headquarters, Atlantic Avenue & waterfront estates',
+        badge: 'Headquarters',
+      },
+      {
+        name: 'Boca Raton',
+        href: '/locations/boca-raton',
+        description: 'Royal Palm Yacht Club, Woodfield, Mizner Park & private estates',
+        badge: 'Estates',
+      },
+      {
+        name: 'Boynton Beach',
+        href: '/locations/boynton-beach',
+        description: 'Delray Beach HQ adjacent, Intracoastal estates & corporate campuses',
+        badge: 'HQ Adjacent',
+      },
+      {
+        name: 'Gulf Stream',
+        href: '/locations/gulf-stream',
+        description: 'Private barrier island estates, A1A oceanfront & Intracoastal security',
+        badge: 'Private Island',
+      },
+      {
+        name: 'Manalapan',
+        href: '/locations/manalapan',
+        description: 'Exclusive barrier island, ocean-to-Intracoastal estates & seasonal security',
+        badge: 'Private Island',
+      },
+      {
+        name: 'Ocean Ridge',
+        href: '/locations/ocean-ridge',
+        description: 'A1A oceanfront & Intracoastal barrier island estates, quiet enclave protection',
+        badge: 'Private Island',
+      },
+      // {
+      //   name: 'Broward County',
+      //   href: '/locations/broward',
+      //   description: 'Fort Lauderdale Intracoastal, Las Olas, Weston',
+      // },
+      {
+        name: 'Hillsboro Beach',
+        href: '/locations/hillsboro-beach',
+        description: 'Hillsboro Mile oceanfront estates, inlet security & barrier island protection',
+        badge: 'Hillsboro Mile',
+      },
+      {
+        name: 'Lighthouse Point',
+        href: '/locations/lighthouse-point',
+        description: 'Canal-front homes, private docks & waterfront residential protection',
+        badge: 'Waterfront',
+      },
+      {
+        name: 'Fort Lauderdale',
+        href: '/locations/fort-lauderdale',
+        description: 'Superyacht security, Las Olas Isles, FLIBS & waterfront estates',
+        badge: 'Maritime',
+      },
+      {
+        name: 'Aventura',
+        href: '/locations/aventura',
+        description: 'Williams Island, Turnberry Isle, luxury high-rises & Intracoastal estates',
+        badge: 'Waterfront',
+      },
+      {
+        name: 'Miami',
+        href: '/locations/miami',
+        description: 'Brickell financial towers, Coral Gables estates, Key Biscayne & international EP',
+        badge: 'Executive',
+      },
+      {
+        name: 'Miami Beach',
+        href: '/locations/miami-beach',
+        description: 'Star Island, Palm Island, Art Basel, luxury hotels & celebrity VIP protection',
+        badge: 'Private Island',
+      },
+      {
+        name: 'Jacksonville',
+        href: '/locations/jacksonville',
+        description: 'Downtown, Southbank, Riverside & San Marco executive visits and security',
+        badge: 'Regional',
+      },
+      {
+        name: 'Naples',
+        href: '/locations/naples',
+        description: 'Port Royal, Old Naples, Gulf Coast seasonal residence & visiting executive security',
+        badge: 'Gulf Coast',
+      },
+      {
+        name: 'Orlando',
+        href: '/locations/orlando',
+        description: 'Convention district, International Drive, Lake Nona & executive protection',
+        badge: 'Central FL',
+      },
+      {
+        name: 'Sarasota',
+        href: '/locations/sarasota',
+        description: 'Casey Key, Longboat Key, Bird Key & Gulf Coast arts season estate protection',
+        badge: 'Gulf Coast',
+      },
+      {
+        name: 'Tampa',
+        href: '/locations/tampa',
+        description: 'Downtown Riverwalk, Westshore business district, Hyde Park & Davis Islands',
+        badge: 'Gulf Coast',
       },
     ],
   },
   {
-    title: 'ABOUT',
+    title: 'Resources',
     items: [
       {
         name: 'About Massive Protective',
@@ -150,34 +249,39 @@ const NAV_STRUCTURE: NavCategory[] = [
         name: "Licensing & Credentials",
         href: '/licensing',
         description: 'Meet the licensed professionals behind Massive Protective Services Inc.'
-      }
-    ],
-  },
-  {
-    title: 'RESOURCES',
-    items: [
+      },
       {
         name: 'Security Intelligence & Blog',
         href: '/blog',
         description: 'Guides on executive protection, armed security & bodyguard pricing',
       },
-      {
-        name: 'VIP Threat Assessment Guide',
-        href: '/blog',
-        description: 'Estate vulnerability auditing & protection checklist',
-      },
-      {
-        name: 'Florida Chapter 493 Statutes',
-        href: '/licensing',
-        description: 'FDACS License B1400200 armed regulations',
-      },
-      {
-        name: 'Confidentiality & NDA Standards',
-        href: '/terms',
-        description: 'Strict non-disclosure agreements & legal protocols',
-      },
     ],
   },
+  // {
+  //   title: 'RESOURCES',
+  //   items: [
+  //     {
+  //       name: 'Security Intelligence & Blog',
+  //       href: '/blog',
+  //       description: 'Guides on executive protection, armed security & bodyguard pricing',
+  //     },
+  //     {
+  //       name: 'VIP Threat Assessment Guide',
+  //       href: '/blog',
+  //       description: 'Estate vulnerability auditing & protection checklist',
+  //     },
+  //     {
+  //       name: 'Florida Chapter 493 Statutes',
+  //       href: '/licensing',
+  //       description: 'FDACS License B1400200 armed regulations',
+  //     },
+  //     {
+  //       name: 'Confidentiality & NDA Standards',
+  //       href: '/terms',
+  //       description: 'Strict non-disclosure agreements & legal protocols',
+  //     },
+  //   ],
+  // },
   {
     title: 'CONTACT',
     href: '/contact',
@@ -279,6 +383,33 @@ export const Header: React.FC = () => {
               const hasDropdown = Boolean(item.items && item.items.length > 0);
               const isCurrentOpen = activeDropdown === item.title;
 
+              const isLocations = item.title === 'LOCATIONS';
+              const isServices = item.title === 'SERVICES';
+              const isAbout = item.title === 'ABOUT';
+              const isResources = item.title === 'RESOURCES';
+
+              let menuWidthClass = 'w-72 sm:w-80';
+              let gridColsClass = 'grid-cols-1';
+              let menuPositionClass = 'left-0';
+
+              if (isLocations) {
+                menuWidthClass = 'w-[800px] xl:w-[860px] max-w-[calc(100vw-32px)]';
+                gridColsClass = 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+                menuPositionClass = '-left-28 sm:-left-36 lg:-left-44 xl:-left-44';
+              } else if (isServices) {
+                menuWidthClass = 'w-[620px] xl:w-[680px] max-w-[calc(100vw-32px)]';
+                gridColsClass = 'grid-cols-1 sm:grid-cols-2';
+                menuPositionClass = 'left-0';
+              } else if (isAbout) {
+                menuWidthClass = 'w-[520px] max-w-[calc(100vw-32px)]';
+                gridColsClass = 'grid-cols-1 sm:grid-cols-2';
+                menuPositionClass = '-left-16 xl:-left-20';
+              } else if (isResources) {
+                menuWidthClass = 'w-80 max-w-[calc(100vw-32px)]';
+                gridColsClass = 'grid-cols-1';
+                menuPositionClass = '-left-20 xl:left-0';
+              }
+
               return (
                 <div
                   key={item.title}
@@ -312,7 +443,7 @@ export const Header: React.FC = () => {
                     </Link>
                   )}
 
-                  {/* Dropdown Menu Container */}
+                  {/* Dropdown Menu Container - Multi-Column Rectangular Panel */}
                   <AnimatePresence>
                     {hasDropdown && isCurrentOpen && (
                       <motion.div
@@ -320,34 +451,88 @@ export const Header: React.FC = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.98 }}
                         transition={{ duration: 0.18, ease: 'easeOut' }}
-                        className="absolute top-full left-0 mt-1 w-72 sm:w-80 bg-[#0F172A]/98 backdrop-blur-2xl border border-[#C5A880]/30 rounded-lg p-2.5 shadow-[0_16px_40px_rgba(0,0,0,0.85)] z-50"
+                        className={`absolute top-full mt-1.5 ${menuPositionClass} ${menuWidthClass} bg-[#0A1324]/98 backdrop-blur-2xl border border-[#C5A880]/35 rounded-lg p-3 shadow-[0_20px_50px_rgba(0,0,0,0.92)] z-50 max-h-[calc(100vh-100px)] overflow-y-auto before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3`}
                       >
-                        <div className="flex flex-col gap-1">
+                        {/* Header Ribbon for Locations */}
+                        {isLocations && (
+                          <div className="flex items-center justify-between px-2.5 py-1.5 mb-2 border-b border-white/[0.08] text-[11px] font-mono tracking-wider text-[#C5A880]">
+                            <div className="flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] animate-pulse" />
+                              <span className="font-semibold uppercase tracking-[0.16em]">
+                                FLORIDA JURISDICTION GRID ({item.items?.length})
+                              </span>
+                            </div>
+                            <Link
+                              href="/locations"
+                              onClick={() => setActiveDropdown(null)}
+                              className="text-[11px] font-sans text-zinc-400 hover:text-[#D4AF37] transition-colors flex items-center gap-1 group"
+                            >
+                              <span>All Locations</span>
+                              <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                            </Link>
+                          </div>
+                        )}
+
+                        {/* Header Ribbon for Services */}
+                        {isServices && (
+                          <div className="flex items-center justify-between px-2.5 py-1.5 mb-2 border-b border-white/[0.08] text-[11px] font-mono tracking-wider text-[#C5A880]">
+                            <div className="flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] animate-pulse" />
+                              <span className="font-semibold uppercase tracking-[0.16em]">
+                                SPECIALIZED PROTECTION SERVICES ({item.items?.length})
+                              </span>
+                            </div>
+                            <Link
+                              href="/executive-protection"
+                              onClick={() => setActiveDropdown(null)}
+                              className="text-[11px] font-sans text-zinc-400 hover:text-[#D4AF37] transition-colors flex items-center gap-1 group"
+                            >
+                              <span>Class G Armed</span>
+                              <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                            </Link>
+                          </div>
+                        )}
+
+                        {/* Multi-Column Grid */}
+                        <div className={`grid ${gridColsClass} gap-1.5`}>
                           {item.items?.map((subItem) => (
                             <Link
                               key={subItem.name}
                               href={subItem.href}
                               onClick={() => setActiveDropdown(null)}
-                              className="group flex flex-col p-2.5 rounded-md hover:bg-[#1E293B]/80 border border-transparent hover:border-[#C5A880]/20 transition-all"
+                              className="group flex flex-col p-2.5 rounded-md hover:bg-[#131F38] border border-transparent hover:border-[#C5A880]/30 transition-all duration-150"
                             >
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs font-semibold text-zinc-200 group-hover:text-[#D4AF37] transition-colors">
+                              <div className="flex items-center justify-between gap-1.5">
+                                <span className="text-xs font-semibold text-zinc-200 group-hover:text-[#D4AF37] transition-colors truncate">
                                   {subItem.name}
                                 </span>
                                 {subItem.badge && (
-                                  <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#C5A880]/15 text-[#D4AF37] border border-[#C5A880]/30">
+                                  <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#C5A880]/15 text-[#D4AF37] border border-[#C5A880]/30 shrink-0">
                                     {subItem.badge}
                                   </span>
                                 )}
                               </div>
                               {subItem.description && (
-                                <span className="text-[11px] text-zinc-400 group-hover:text-zinc-300 mt-0.5 line-clamp-1">
+                                <span className="text-[11px] text-zinc-400 group-hover:text-zinc-300 mt-0.5 line-clamp-1 font-light leading-snug">
                                   {subItem.description}
                                 </span>
                               )}
                             </Link>
                           ))}
                         </div>
+
+                        {/* Footer Ribbon for Multi-Column Menus */}
+                        {(isLocations || isServices) && (
+                          <div className="mt-2.5 pt-2 border-t border-white/[0.08] px-2.5 flex items-center justify-between text-[11px] font-sans text-zinc-400">
+                            <span className="font-light">FL License B1400200 · 24/7 Rapid Dispatch</span>
+                            <a
+                              href="tel:9542347231"
+                              className="font-mono text-[#C5A880] hover:text-[#D4AF37] transition-colors"
+                            >
+                              (954) 234-7231
+                            </a>
+                          </div>
+                        )}
                       </motion.div>
                     )}
                   </AnimatePresence>

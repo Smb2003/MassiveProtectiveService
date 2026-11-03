@@ -52,6 +52,10 @@ import {
   Mic,
   Trophy,
   CameraOff,
+  Waves,
+  User,
+  UserCheck,
+  Palmtree,
 } from 'lucide-react';
 
 export type ServiceIconName =
@@ -105,7 +109,11 @@ export type ServiceIconName =
   | 'door-open'
   | 'mic'
   | 'trophy'
-  | 'camera-off';
+  | 'camera-off'
+  | 'waves'
+  | 'user'
+  | 'user-check'
+  | 'executive';
 
 interface Props {
   name: ServiceIconName | string;
@@ -165,6 +173,12 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   mic: Mic,
   trophy: Trophy,
   'camera-off': CameraOff,
+  waves: Waves,
+  user: User,
+  'user-check': UserCheck,
+  executive: User,
+  palmtree: Palmtree,
+  palm: Palmtree,
 };
 
 export const ServiceIcon: React.FC<Props> = ({ name, className }) => {

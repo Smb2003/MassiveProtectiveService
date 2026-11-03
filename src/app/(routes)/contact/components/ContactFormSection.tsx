@@ -2,7 +2,19 @@
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Phone, Mail, MapPin, Shield, FileText, ExternalLink, ChevronDown } from 'lucide-react';
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Shield,
+  FileText,
+  ExternalLink,
+  ChevronDown,
+  CheckCircle2,
+  Loader2,
+  AlertTriangle,
+} from 'lucide-react';
+import { useConsultationSubmit } from '@/hooks/useConsultationSubmit';
 
 const SERVICES_OPTIONS = [
   'Select a service',
@@ -19,6 +31,26 @@ export const ContactFormSection: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
   const [preferredMethod, setPreferredMethod] = useState<'Phone' | 'Email' | 'Either'>('Either');
   const [selectedService, setSelectedService] = useState('Select a service');
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+
+  const { isSubmitting, isSuccess, isTimedOut, errorMessage, fieldErrors, submitForm, reset } =
+    useConsultationSubmit({
+      formSource: 'Direct Contact Page Inquiry',
+    });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await submitForm({
+      ...formData,
+      serviceType: selectedService !== 'Select a service' ? selectedService : 'Executive Protection',
+      preferredContactMethod: preferredMethod,
+    });
+  };
 
   return (
     <section
@@ -26,7 +58,7 @@ export const ContactFormSection: React.FC = () => {
       className="relative w-full bg-[#0A111F] text-white pt-32 sm:pt-40 pb-16 sm:pb-24 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Header matching exact screenshot */}
+        {/* Top Header */}
         <div className="mb-10 sm:mb-14 space-y-4">
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
@@ -80,123 +112,205 @@ export const ContactFormSection: React.FC = () => {
               </p>
             </div>
 
-            {/* Visual Form Layout (Agent 3 will hook up Zod & submission logic) */}
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-              {/* Row 1: Full Name & Email Address */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <label className="text-xs font-sans text-zinc-300 block">
-                    Full Name <span className="text-[#C5A880]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your full name"
-                    className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors"
-                  />
+            {isSuccess ? (
+              <div className="py-12 text-center space-y-5">
+                <div className="w-16 h-16 rounded-full bg-[#C5A880]/15 border border-[#C5A880]/40 flex items-center justify-center mx-auto text-[#D4AF37]">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-sans text-zinc-300 block">
-                    Email Address <span className="text-[#C5A880]">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="Your email address"
-                    className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors"
-                  />
+                <h3 className="text-2xl sm:text-3xl font-serif text-white">
+                  Confidential Inquiry Transmitted
+                </h3>
+                <p className="text-zinc-300 font-light max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
+                  Your inquiry has been received directly by Marc Tardalo and the operations command
+                  desk. We will respond promptly by your preferred contact method ({preferredMethod}).
+                </p>
+                <div className="pt-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      reset();
+                      setFormData({ fullName: '', email: '', phone: '', message: '' });
+                    }}
+                    className="px-6 py-2.5 rounded-sm border border-[#C5A880]/50 text-xs font-mono uppercase tracking-wider text-[#C5A880] hover:bg-[#C5A880]/10 transition-colors cursor-pointer"
+                  >
+                    Send Another Inquiry
+                  </button>
                 </div>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Row 1: Full Name & Email Address */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-2">
+                    <label className="text-xs font-sans text-zinc-300 block">
+                      Full Name <span className="text-[#C5A880]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Your full name"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors"
+                    />
+                    {fieldErrors.fullName && (
+                      <p className="text-[11px] text-[#8B1E1E] font-sans font-medium">
+                        {fieldErrors.fullName}
+                      </p>
+                    )}
+                  </div>
 
-              {/* Row 2: Phone Number & How can we help? */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <label className="text-xs font-sans text-zinc-300 block">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    placeholder="Your phone number"
-                    className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors"
-                  />
-                  <span className="text-[11px] text-zinc-500 font-sans block">
-                    Best number to reach you
-                  </span>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-sans text-zinc-300 block">
-                    How can we help?
-                  </label>
-                  <div className="relative">
-                    <select
-                      aria-label="How can we help?"
-                      value={selectedService}
-                      onChange={(e) => setSelectedService(e.target.value)}
-                      className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-zinc-200 text-xs sm:text-sm font-sans appearance-none outline-none pr-10 cursor-pointer"
-                    >
-                      {SERVICES_OPTIONS.map((opt) => (
-                        <option key={opt} value={opt} className="bg-[#0A111F] text-white">
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-4 h-4 text-zinc-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <div className="space-y-2">
+                    <label className="text-xs font-sans text-zinc-300 block">
+                      Email Address <span className="text-[#C5A880]">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="Your email address"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors"
+                    />
+                    {fieldErrors.email && (
+                      <p className="text-[11px] text-[#8B1E1E] font-sans font-medium">
+                        {fieldErrors.email}
+                      </p>
+                    )}
                   </div>
                 </div>
-              </div>
 
-              {/* Row 3: Brief Description */}
-              <div className="space-y-2">
-                <label className="text-xs font-sans text-zinc-300 block">
-                  Brief Description
-                </label>
-                <textarea
-                  rows={4}
-                  placeholder="Tell us about your situation — location, timeline, and what you need. All information is kept strictly confidential."
-                  className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors resize-none leading-relaxed"
-                />
-              </div>
-
-              {/* Row 4: Preferred Contact Method */}
-              <div className="space-y-2.5 pt-1">
-                <label className="text-xs font-sans text-zinc-300 block">
-                  Preferred Contact Method
-                </label>
-                <div className="flex items-center gap-6 text-xs sm:text-sm text-zinc-300 font-sans">
-                  {(['Phone', 'Email', 'Either'] as const).map((method) => (
-                    <label
-                      key={method}
-                      className="flex items-center gap-2 cursor-pointer select-none group"
-                    >
-                      <input
-                        type="radio"
-                        name="preferredContactMethod"
-                        value={method}
-                        checked={preferredMethod === method}
-                        onChange={() => setPreferredMethod(method)}
-                        className="w-4 h-4 accent-[#C5A880] cursor-pointer"
-                      />
-                      <span className="group-hover:text-white transition-colors">{method}</span>
+                {/* Row 2: Phone Number & How can we help? */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-2">
+                    <label className="text-xs font-sans text-zinc-300 block">
+                      Phone Number <span className="text-[#C5A880]">*</span>
                     </label>
-                  ))}
+                    <input
+                      type="tel"
+                      required
+                      placeholder="Your phone number"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors"
+                    />
+                    {fieldErrors.phone && (
+                      <p className="text-[11px] text-[#8B1E1E] font-sans font-medium">
+                        {fieldErrors.phone}
+                      </p>
+                    )}
+                    <span className="text-[11px] text-zinc-500 font-sans block">
+                      Best number to reach you
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-sans text-zinc-300 block">
+                      How can we help?
+                    </label>
+                    <div className="relative">
+                      <select
+                        aria-label="How can we help?"
+                        value={selectedService}
+                        onChange={(e) => setSelectedService(e.target.value)}
+                        className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-zinc-200 text-xs sm:text-sm font-sans appearance-none outline-none pr-10 cursor-pointer"
+                      >
+                        {SERVICES_OPTIONS.map((opt) => (
+                          <option key={opt} value={opt} className="bg-[#0A111F] text-white">
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-zinc-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Submit Action Button */}
-              <div className="pt-3 space-y-3">
-                <button
-                  type="submit"
-                  className="w-full py-4 px-8 rounded-sm bg-[#C5A880] hover:bg-[#D4AF37] text-[#0A0A0A] font-semibold text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-[0_4px_24px_rgba(197,168,128,0.25)] hover:shadow-[0_4px_32px_rgba(212,175,55,0.45)] hover:scale-[1.01] cursor-pointer"
-                >
-                  Send Confidential Inquiry
-                </button>
+                {/* Row 3: Brief Description */}
+                <div className="space-y-2">
+                  <label className="text-xs font-sans text-zinc-300 block">
+                    Brief Description
+                  </label>
+                  <textarea
+                    rows={4}
+                    placeholder="Tell us about your situation — location, timeline, and what you need. All information is kept strictly confidential."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full px-4 py-3 rounded-sm bg-[#0A111F] border border-white/[0.12] focus:border-[#C5A880] text-white text-xs sm:text-sm font-sans placeholder:text-zinc-500 outline-none transition-colors resize-none leading-relaxed"
+                  />
+                </div>
 
-                <p className="text-[11px] sm:text-xs text-zinc-400 font-sans leading-relaxed text-center sm:text-left">
-                  We do not share, sell or distribute any information submitted through this form.
-                  Your inquiry is read by Marc Tardalo directly.
-                </p>
-              </div>
-            </form>
+                {/* Row 4: Preferred Contact Method */}
+                <div className="space-y-2.5 pt-1">
+                  <label className="text-xs font-sans text-zinc-300 block">
+                    Preferred Contact Method
+                  </label>
+                  <div className="flex items-center gap-6 text-xs sm:text-sm text-zinc-300 font-sans">
+                    {(['Phone', 'Email', 'Either'] as const).map((method) => (
+                      <label
+                        key={method}
+                        className="flex items-center gap-2 cursor-pointer select-none group"
+                      >
+                        <input
+                          type="radio"
+                          name="preferredContactMethod"
+                          value={method}
+                          checked={preferredMethod === method}
+                          onChange={() => setPreferredMethod(method)}
+                          className="w-4 h-4 accent-[#C5A880] cursor-pointer"
+                        />
+                        <span className="group-hover:text-white transition-colors">{method}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Inline Error Banner */}
+                {errorMessage && (
+                  <div className="p-3.5 rounded bg-[#8B1E1E]/20 border border-[#8B1E1E]/60 text-xs text-red-200 flex items-start gap-2.5">
+                    <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-semibold">{errorMessage}</p>
+                      {isTimedOut && (
+                        <p className="mt-1 text-red-300">
+                          Priority Dispatch Hotline:{' '}
+                          <a href="tel:9542347231" className="underline font-bold text-white">
+                            (954) 234-7231
+                          </a>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Submit Action Button */}
+                <div className="pt-3 space-y-3">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className={`w-full py-4 px-8 rounded-sm font-semibold text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-[0_4px_24px_rgba(197,168,128,0.25)] hover:shadow-[0_4px_32px_rgba(212,175,55,0.45)] cursor-pointer flex items-center justify-center gap-2 ${
+                      isSubmitting
+                        ? 'bg-[#182338] text-[#C5A880] border border-[#C5A880]/40 cursor-wait'
+                        : 'bg-[#C5A880] hover:bg-[#D4AF37] text-[#0A0A0A]'
+                    }`}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-[#C5A880]" />
+                        <span>Securing Transmission...</span>
+                      </>
+                    ) : (
+                      <span>Send Confidential Inquiry</span>
+                    )}
+                  </button>
+
+                  <p className="text-[11px] sm:text-xs text-zinc-400 font-sans leading-relaxed text-center sm:text-left">
+                    We do not share, sell or distribute any information submitted through this form.
+                    Your inquiry is read by Marc Tardalo directly.
+                  </p>
+                </div>
+              </form>
+            )}
           </motion.div>
 
           {/* Right Column (lg:col-span-4): Direct Contact Cards */}
@@ -218,8 +332,8 @@ export const ContactFormSection: React.FC = () => {
               >
                 (954) 234-7231
               </a>
-              <p className="text-xs text-zinc-400 font-sans mt-1 leading-relaxed">
-                Available around the clock for active clients and urgent inquiries
+              <p className="text-xs text-zinc-400 font-sans mt-1.5 leading-relaxed">
+                Direct to watch commander. Available 24 hours a day, 7 days a week.
               </p>
             </motion.div>
 
@@ -232,65 +346,59 @@ export const ContactFormSection: React.FC = () => {
             >
               <div className="flex items-center gap-2 text-xs font-sans font-medium text-white">
                 <Mail className="w-4 h-4 text-[#C5A880]" />
-                <span>Email</span>
+                <span>Confidential Email</span>
               </div>
               <a
-                href="mailto:info@massiveprotectiveservices.com"
-                className="block text-xs sm:text-sm font-sans font-medium text-zinc-200 hover:text-[#D4AF37] mt-2.5 transition-colors break-all"
+                href="mailto:operations@massiveprotectiveservices.com"
+                className="block text-sm sm:text-base font-sans font-semibold text-white hover:text-[#D4AF37] mt-2.5 transition-colors break-all"
               >
-                info@massiveprotectiveservices.com
+                operations@massiveprotectiveservices.com
               </a>
-              <p className="text-xs text-zinc-400 font-sans mt-1 leading-relaxed">
-                Monitored daily — responses within a few hours during business hours
+              <p className="text-xs text-zinc-400 font-sans mt-1.5 leading-relaxed">
+                Monitored continuously. PGP key available upon request for encrypted correspondence.
               </p>
             </motion.div>
 
-            {/* Card 3: Headquarters with Gold Left Line */}
+            {/* Card 3: Headquarters */}
             <motion.div
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="rounded-sm bg-[#101A2D] border border-white/[0.08] border-l-2 border-l-[#C5A880] p-6 shadow-xl"
+              className="rounded-sm bg-[#101A2D] border border-white/[0.08] p-6 shadow-xl"
             >
               <div className="flex items-center gap-2 text-xs font-sans font-medium text-white">
                 <MapPin className="w-4 h-4 text-[#C5A880]" />
                 <span>Headquarters</span>
               </div>
-              <div className="text-base sm:text-lg font-sans font-semibold text-white mt-2.5">
+              <p className="text-sm font-sans font-semibold text-white mt-2.5">
                 Delray Beach, Florida
-              </div>
-              <p className="text-xs text-zinc-400 font-sans mt-1 pb-3.5 border-b border-white/[0.06] leading-relaxed">
-                Street address pending confirmation
               </p>
-              <div className="text-xs text-[#C5A880]/90 font-sans mt-3">
-                Serving Palm Beach · Broward · Miami-Dade · Statewide
-              </div>
+              <p className="text-xs text-zinc-400 font-sans mt-1 leading-relaxed">
+                Serving Palm Beach, Broward, and Miami-Dade Counties. Statewide operations available
+                under Florida Class G authority.
+              </p>
             </motion.div>
 
-            {/* Regulatory Footer Badges matching exact screenshot */}
+            {/* Card 4: Licensure Verification */}
             <motion.div
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.35 }}
-              className="pt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-sans text-zinc-400"
+              className="rounded-sm bg-[#0E1626] border border-[#C5A880]/30 p-6 shadow-xl"
             >
-              <span className="flex items-center gap-1.5 text-zinc-300">
-                <Shield className="w-3.5 h-3.5 text-[#C5A880]" />
-                FL License B1400200
-              </span>
-              <span className="flex items-center gap-1.5 text-zinc-300">
-                <FileText className="w-3.5 h-3.5 text-[#C5A880]" />
-                Chapter 493, FL Statutes
-              </span>
-              <a
-                href="https://www.fdacs.gov"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-[#C5A880] hover:text-[#D4AF37] transition-colors"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                FDACS Verifiable
-              </a>
+              <div className="flex items-center gap-2 text-xs font-mono font-medium text-[#C5A880] uppercase tracking-wider">
+                <Shield className="w-4 h-4 text-[#C5A880]" />
+                <span>FDACS LICENSED & INSURED</span>
+              </div>
+              <p className="text-xs sm:text-sm text-zinc-300 font-sans mt-2.5 leading-relaxed">
+                Florida Agency License <strong className="text-white">#81400200</strong>. Operating
+                in strict compliance with Chapter 493, Florida Statutes.
+              </p>
+              <div className="mt-3 flex items-center gap-1.5 text-xs text-[#C5A880] hover:underline cursor-pointer">
+                <FileText className="w-3.5 h-3.5" />
+                <span>Verify with Florida Dept. of Agriculture & Consumer Services</span>
+                <ExternalLink className="w-3 h-3 ml-0.5" />
+              </div>
             </motion.div>
           </div>
         </div>
@@ -298,5 +406,3 @@ export const ContactFormSection: React.FC = () => {
     </section>
   );
 };
-
-export default ContactFormSection;

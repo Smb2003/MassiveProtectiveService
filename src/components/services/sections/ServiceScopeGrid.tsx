@@ -83,39 +83,104 @@ export const ServiceScopeGrid: React.FC<Props> = ({ data }) => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className={`grid grid-cols-1 md:grid-cols-2 ${
-            data.columns === 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-3'
+          className={`grid grid-cols-1 sm:grid-cols-2 ${
+            data.columns === 4
+              ? 'lg:grid-cols-4'
+              : data.columns === 2
+              ? 'lg:grid-cols-2'
+              : 'lg:grid-cols-3'
           } gap-6 sm:gap-8`}
         >
           {data.cards.map((card, idx) => {
             const isMinimalGold = data.cardVariant === 'minimal-gold';
+            const isGoldTitle = data.cardVariant === 'gold-title';
+            const isWhiteTitle = data.cardVariant === 'white-title';
+            const isTopGoldArrow = data.cardVariant === 'top-gold-line-arrow';
+            const isLeftGoldBorder = data.cardVariant === 'left-gold-border';
+
+            if (isTopGoldArrow) {
+              return (
+                <motion.div
+                  key={idx}
+                  variants={itemVariants}
+                  className="group relative bg-[#131E30]/90 hover:bg-[#18263D] border border-white/[0.08] hover:border-[#C5A880]/40 rounded-sm p-8 sm:p-9 flex flex-col justify-between transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:-translate-y-1"
+                >
+                  {/* Top Solid Gold Accent Bar */}
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#C5A880]" />
+
+                  <div>
+                    {/* Optional Card Icon */}
+                    {card.icon && (
+                      <div className="w-8 h-8 flex items-center justify-start mb-5 text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
+                        <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
+                      </div>
+                    )}
+
+                    {/* Card Title */}
+                    <h3 className="text-xl sm:text-2xl font-serif font-normal text-white group-hover:text-[#F3E5D0] transition-colors mb-3 leading-snug">
+                      {card.title}
+                    </h3>
+
+                    {/* Card Description */}
+                    <p className="text-sm sm:text-[15px] text-zinc-300 font-sans font-light leading-relaxed">
+                      {card.description}
+                    </p>
+
+                    {card.note && (
+                      <p className="mt-5 pt-3 border-t border-white/10 text-xs text-zinc-400 font-sans leading-relaxed">
+                        {card.note}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Bottom Right Arrow */}
+                  <div className="mt-8 flex justify-end">
+                    <span className="text-[#C5A880] text-xl font-light leading-none group-hover:translate-x-1.5 transition-transform duration-300">
+                      →
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            }
 
             return (
               <motion.div
                 key={idx}
                 variants={itemVariants}
                 className={`group relative ${
-                  isMinimalGold
-                    ? 'bg-[#0E1728]/70 hover:bg-[#121E35] border border-[#C5A880]/30 hover:border-[#C5A880]/70'
-                    : 'bg-[#111A2C]/80 hover:bg-[#152238] border border-white/[0.07] hover:border-[#C5A880]/40'
-                } rounded-sm p-8 sm:p-9 flex flex-col justify-start transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:-translate-y-1`}
+                  isLeftGoldBorder
+                    ? 'bg-[#111C2E]/90 hover:bg-[#152238] border-l-2 border-[#C5A880] border-t border-r border-b border-white/[0.06] rounded-none'
+                    : isGoldTitle || isWhiteTitle
+                    ? 'bg-[#121D38] hover:bg-[#162548] border border-white/[0.08] hover:border-[#C5A880]/50 rounded-lg'
+                    : isMinimalGold
+                    ? 'bg-[#0E1728]/70 hover:bg-[#121E35] border border-[#C5A880]/30 hover:border-[#C5A880]/70 rounded-sm'
+                    : 'bg-[#111A2C]/80 hover:bg-[#152238] border border-white/[0.07] hover:border-[#C5A880]/40 rounded-sm'
+                } p-8 sm:p-9 flex flex-col justify-start transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:-translate-y-1`}
               >
                 {/* Top gold accent on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C5A880]/0 group-hover:via-[#C5A880] to-transparent transition-all duration-500" />
 
                 {/* Card Icon */}
-                {isMinimalGold ? (
-                  <div className="w-8 h-8 flex items-center justify-start mb-5 text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
-                    <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
-                  </div>
-                ) : (
-                  <div className="w-12 h-12 rounded-sm bg-[#1A263D] border border-white/10 group-hover:border-[#C5A880]/50 flex items-center justify-center mb-6 text-[#C5A880] transition-colors duration-300">
-                    <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
-                  </div>
+                {card.icon && (
+                  isMinimalGold || isGoldTitle || isWhiteTitle || isLeftGoldBorder ? (
+                    <div className="w-8 h-8 flex items-center justify-start mb-5 text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
+                      <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-sm bg-[#1A263D] border border-white/10 group-hover:border-[#C5A880]/50 flex items-center justify-center mb-6 text-[#C5A880] transition-colors duration-300">
+                      <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
+                    </div>
+                  )
                 )}
 
                 {/* Card Title */}
-                <h3 className="text-xl sm:text-2xl font-serif font-normal text-white group-hover:text-[#F3E5D0] transition-colors mb-3 leading-snug">
+                <h3
+                  className={`text-xl sm:text-2xl font-serif font-normal ${
+                    isGoldTitle || isLeftGoldBorder
+                      ? 'text-[#C5A880] group-hover:text-[#D4AF37]'
+                      : 'text-white group-hover:text-[#F3E5D0]'
+                  } transition-colors mb-3 leading-snug`}
+                >
                   {card.title}
                 </h3>
 

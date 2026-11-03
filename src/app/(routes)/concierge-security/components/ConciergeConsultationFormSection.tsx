@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ChevronDown, Check, Loader2, ShieldCheck } from 'lucide-react';
+import { ChevronDown, Check, Loader2, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { useConsultationSubmit } from '@/hooks/useConsultationSubmit';
 
 const CITIES = [
   'Palm Beach',
@@ -43,17 +44,11 @@ export const ConciergeConsultationFormSection: React.FC = () => {
   const [cityOpen, setCityOpen] = useState(false);
   const [coverageOpen, setCoverageOpen] = useState(false);
   const [contactMethodOpen, setContactMethodOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const { isSubmitting, isSuccess, isTimedOut, errorMessage, fieldErrors, submitForm, reset } = useConsultationSubmit({ formSource: 'Concierge Security Consultation' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.agreedToPrivacy) return;
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 1000);
+    await submitForm(formData);
   };
 
   return (
@@ -193,7 +188,21 @@ export const ConciergeConsultationFormSection: React.FC = () => {
                 <label className="text-xs font-sans font-medium text-zinc-300 block">
                   Property city *
                 </label>
-                <button
+                
+              {errorMessage && (
+                <div className="p-3.5 rounded bg-[#8B1E1E]/20 border border-[#8B1E1E]/60 text-xs text-red-200 flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold">{errorMessage}</p>
+                    {isTimedOut && (
+                      <p className="mt-1 text-red-300">
+                        Priority Dispatch Hotline: <a href="tel:9542347231" className="underline font-bold text-white">(954) 234-7231</a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+              <button
                   type="button"
                   onClick={() => {
                     setCityOpen(!cityOpen);
@@ -370,7 +379,7 @@ export const ConciergeConsultationFormSection: React.FC = () => {
                   <span>Securing Transmission...</span>
                 </>
               ) : (
-                <span>SEND MY REQUEST — CONFIDENTIALLY</span>
+                <span>SEND MY REQUEST ΓÇö CONFIDENTIALLY</span>
               )}
             </button>
 
@@ -381,7 +390,7 @@ export const ConciergeConsultationFormSection: React.FC = () => {
                 sensitive access codes or personal resident information.
               </p>
               <p className="font-mono text-zinc-500">
-                * Required fields · Prefer to speak?{' '}
+                * Required fields ┬╖ Prefer to speak?{' '}
                 <a href="tel:9542347231" className="text-[#C5A880] hover:underline">
                   (954) 234-7231
                 </a>

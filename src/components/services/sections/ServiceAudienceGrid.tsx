@@ -87,6 +87,22 @@ export const ServiceAudienceGrid: React.FC<Props> = ({ data }) => {
               {data.subtitle}
             </motion.p>
           )}
+
+          {data.paragraphs && data.paragraphs.length > 0 && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.14 }}
+              className={`space-y-4 text-sm sm:text-base font-sans font-light leading-relaxed max-w-4xl pt-2 ${
+                isLight ? 'text-[#4A5568]' : 'text-zinc-300'
+              }`}
+            >
+              {data.paragraphs.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))}
+            </motion.div>
+          )}
         </div>
 
         {/* Bordered Cards (Loss Prevention Screen 4 Reference) */}
@@ -184,14 +200,24 @@ export const ServiceAudienceGrid: React.FC<Props> = ({ data }) => {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="group relative bg-[#101828]/85 hover:bg-[#142036] border border-white/[0.08] hover:border-[#C5A880]/40 rounded-sm p-8 sm:p-9 flex flex-col justify-start transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:-translate-y-1 space-y-4"
+                className={`group relative ${
+                  data.cardVariant === 'gold-title'
+                    ? 'bg-[#121D38] hover:bg-[#162548] border border-white/[0.08] hover:border-[#C5A880]/50 rounded-lg'
+                    : 'bg-[#101828]/85 hover:bg-[#142036] border border-white/[0.08] hover:border-[#C5A880]/40 rounded-sm'
+                } p-8 sm:p-9 flex flex-col justify-start transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:-translate-y-1 space-y-4`}
               >
                 {'icon' in card && typeof card.icon === 'string' && card.icon && (
                   <div className="w-8 h-8 flex items-center justify-start text-[#C5A880] group-hover:text-[#D4AF37] transition-colors mb-1">
                     <ServiceIcon name={card.icon} className="w-6 h-6 stroke-[1.6]" />
                   </div>
                 )}
-                <h3 className="text-xl sm:text-2xl font-serif font-normal text-white group-hover:text-[#F3E5D0] transition-colors leading-snug">
+                <h3
+                  className={`text-xl sm:text-2xl font-serif font-normal ${
+                    data.cardVariant === 'gold-title'
+                      ? 'text-[#C5A880] group-hover:text-[#D4AF37]'
+                      : 'text-white group-hover:text-[#F3E5D0]'
+                  } transition-colors leading-snug`}
+                >
                   {card.title}
                 </h3>
                 <p className="text-sm sm:text-[15px] font-sans font-light leading-relaxed text-zinc-300">

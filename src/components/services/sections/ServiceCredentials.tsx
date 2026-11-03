@@ -33,22 +33,84 @@ export const ServiceCredentials: React.FC<Props> = ({ data }) => {
     },
   };
 
+  const hasHeader = Boolean(
+    data.eyebrow ||
+    data.headline ||
+    (data.paragraphs && data.paragraphs.length > 0) ||
+    data.infoLink
+  );
+
   return (
     <section
       aria-label={data.headline || 'Licensed, Armed and Verifiable'}
-      className="relative w-full bg-[#0B1324] py-20 sm:py-28 lg:py-32 text-white overflow-hidden border-t border-white/5"
+      className={`relative w-full bg-[#0B1324] ${
+        hasHeader ? 'py-20 sm:py-28 lg:py-32' : 'py-12 sm:py-16 lg:py-20'
+      } text-white overflow-hidden border-t border-white/5`}
     >
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
-        {/* Section Headline */}
-        <motion.h2
-          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl sm:text-5xl lg:text-[52px] font-serif font-normal text-white leading-tight tracking-tight max-w-4xl"
-        >
-          {data.headline || 'Licensed, Armed and Verifiable'}
-        </motion.h2>
+      <div className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${hasHeader ? 'space-y-10 sm:space-y-12' : ''}`}>
+        {/* Section Header */}
+        {hasHeader && (
+          <div className="max-w-4xl space-y-4">
+          {data.eyebrow && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.25em] text-[#C5A880]">
+                {data.eyebrow}
+              </span>
+            </motion.div>
+          )}
+
+          {data.headline && (
+            <motion.h2
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6 }}
+              className="text-3xl sm:text-5xl lg:text-[52px] font-serif font-normal text-white leading-tight tracking-tight"
+            >
+              {data.headline}
+            </motion.h2>
+          )}
+
+          {data.paragraphs && data.paragraphs.length > 0 && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="space-y-4 text-sm sm:text-base font-sans font-light leading-relaxed text-zinc-300 max-w-4xl pt-2"
+            >
+              {data.paragraphs.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))}
+            </motion.div>
+          )}
+
+          {data.infoLink && (
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: 0.14 }}
+              className="pt-2"
+            >
+              <a
+                href={data.infoLink.href}
+                target={data.infoLink.href.startsWith('http') ? '_blank' : undefined}
+                rel={data.infoLink.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-sans text-[#C5A880] hover:text-[#D4AF37] transition-colors group"
+              >
+                <span>{data.infoLink.label}</span>
+                <span className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+              </a>
+            </motion.div>
+          )}
+        </div>
+        )}
 
         {/* Cards Grid: 3-column statement cards (Screen 7 Reference) OR 4-card badge grid */}
         {data.variant === 'cards-3' ? (
@@ -86,7 +148,7 @@ export const ServiceCredentials: React.FC<Props> = ({ data }) => {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="bg-[#111A2C]/80 border border-white/[0.08] hover:border-[#C5A880]/40 rounded-sm p-7 sm:p-8 flex flex-col items-center text-center justify-center space-y-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+                className="bg-[#121D38] border border-white/[0.08] hover:border-[#C5A880]/50 rounded-lg p-7 sm:p-8 flex flex-col items-center text-center justify-center space-y-3.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
               >
                 {/* Gold Icon */}
                 {card.icon && (
@@ -146,7 +208,9 @@ export const ServiceCredentials: React.FC<Props> = ({ data }) => {
         )}
 
         {/* Bottom Subtle Gold Divider Line */}
-        <div className="w-full h-px bg-[#C5A880]/30 pt-0 mt-12 sm:mt-16" />
+        {data.showBottomDivider !== false && (
+          <div className="w-full h-px bg-[#C5A880]/30 pt-0 mt-12 sm:mt-16" />
+        )}
       </div>
     </section>
   );

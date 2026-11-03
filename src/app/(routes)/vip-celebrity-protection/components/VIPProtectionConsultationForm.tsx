@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ChevronDown, Calendar, Check, Loader2 } from 'lucide-react';
+import { ChevronDown, Calendar, Check, Loader2, AlertTriangle } from 'lucide-react';
+import { useConsultationSubmit } from '@/hooks/useConsultationSubmit';
 
 interface Props {
   id?: string;
@@ -42,16 +43,12 @@ export const VIPProtectionConsultationForm: React.FC<Props> = ({ id = 'consultat
 
   const [principalOpen, setPrincipalOpen] = useState(false);
   const [coverageOpen, setCoverageOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  
+  const { isSubmitting, isSuccess, isTimedOut, errorMessage, fieldErrors, submitForm, reset } = useConsultationSubmit({ formSource: 'VIP Protection Consultation' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 1000);
+    await submitForm(formData);
   };
 
   return (
@@ -109,9 +106,23 @@ export const VIPProtectionConsultationForm: React.FC<Props> = ({ id = 'consultat
             <p className="text-zinc-300 text-sm max-w-lg mx-auto">
               A licensed close protection coordinator will review your request and reach out within 2 hours. If an NDA is required before details are transmitted, we will initiate execution immediately.
             </p>
-            <button
+            
+              {errorMessage && (
+                <div className="p-3.5 rounded bg-[#8B1E1E]/20 border border-[#8B1E1E]/60 text-xs text-red-200 flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold">{errorMessage}</p>
+                    {isTimedOut && (
+                      <p className="mt-1 text-red-300">
+                        Priority Dispatch Hotline: <a href="tel:9542347231" className="underline font-bold text-white">(954) 234-7231</a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+              <button
               onClick={() => {
-                setIsSuccess(false);
+                reset();
                 setFormData({
                   fullName: '',
                   phone: '',

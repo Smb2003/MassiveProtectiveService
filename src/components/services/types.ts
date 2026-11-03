@@ -55,10 +55,12 @@ export interface ServicePhilosophyData {
     title: string;
     subtitle?: string;
   };
+  hideTopBar?: boolean;
+  hideBottomDivider?: boolean;
 }
 
 export interface ServiceScopeItem {
-  icon: ServiceIconName | string;
+  icon?: ServiceIconName | string;
   title: string;
   description: string;
   note?: string;
@@ -68,8 +70,8 @@ export interface ServiceScopeData {
   eyebrow?: string;
   subtitle?: string;
   headline: string;
-  columns?: 2 | 3;
-  cardVariant?: 'default' | 'minimal-gold';
+  columns?: 2 | 3 | 4;
+  cardVariant?: 'default' | 'minimal-gold' | 'gold-title' | 'white-title' | 'top-gold-line-arrow' | 'left-gold-border';
   footerNote?: string;
   cards: ServiceScopeItem[];
 }
@@ -82,6 +84,7 @@ export interface ServiceAudienceItem {
 
 export interface ServiceAudienceData {
   variant?: 'cards' | 'split-list' | 'bordered-cards' | 'dark-cards';
+  cardVariant?: 'gold-title' | 'white-title';
   theme?: 'light' | 'dark';
   eyebrow?: string;
   headline: string;
@@ -119,15 +122,20 @@ export interface ServiceWhyMassivePillar {
 }
 
 export interface ServiceWhyMassiveData {
-  variant?: 'grid' | 'vertical-bars' | 'bordered-cards';
+  variant?: 'grid' | 'vertical-bars' | 'bordered-cards' | 'column-top-borders';
   theme?: 'light' | 'dark';
   eyebrow?: string;
   headline?: string;
   footerNote?: string;
+  verifyLink?: {
+    label: string;
+    href: string;
+  };
   footerBox?: {
     title: string;
     description: string;
   };
+  credentialBadges?: string[];
   pillars?: ServiceWhyMassivePillar[];
 }
 
@@ -144,8 +152,14 @@ export interface ServiceCredentialsData {
   theme?: 'dark' | 'light';
   eyebrow?: string;
   headline?: string;
+  paragraphs?: string[];
+  infoLink?: {
+    label: string;
+    href: string;
+  };
   cards: ServiceCredentialsItem[];
   footerNote?: string;
+  showBottomDivider?: boolean;
   verifyLink?: {
     label: string;
     href: string;
@@ -200,6 +214,8 @@ export interface ServiceFAQData {
   theme?: 'light' | 'dark';
   eyebrow?: string;
   headline?: string;
+  defaultAllOpen?: boolean;
+  hideToggleIcons?: boolean;
   faqs: ServiceFAQItem[];
 }
 
@@ -222,6 +238,9 @@ export interface ServiceClosingCTAData {
   headline?: string;
   subtitle?: string;
   disclaimer?: string;
+  hideAccentLine?: boolean;
+  hideTopGoldBorder?: boolean;
+  bgClassName?: string;
   primaryCta?: {
     label: string;
     href: string;

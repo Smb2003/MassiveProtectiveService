@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ChevronDown, Check, Loader2, ShieldCheck, Lock } from 'lucide-react';
+import { ChevronDown, Check, Loader2, ShieldCheck, Lock, AlertTriangle } from 'lucide-react';
+import { useConsultationSubmit } from '@/hooks/useConsultationSubmit';
 
 interface Props {
   id?: string;
@@ -49,20 +50,12 @@ export const LossPreventionConsultationForm: React.FC<Props> = ({ id = 'consulta
   const [cityDropdownOpen, setCityDropdownOpen] = useState(false);
   const [timingDropdownOpen, setTimingDropdownOpen] = useState(false);
   const [methodDropdownOpen, setMethodDropdownOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  
+  const { isSubmitting, isSuccess, isTimedOut, errorMessage, fieldErrors, submitForm, reset } = useConsultationSubmit({ formSource: 'Loss Prevention Consultation' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.agreedToPolicy) {
-      alert('Please agree to be contacted and acknowledge the Privacy Policy.');
-      return;
-    }
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 1000);
+    await submitForm(formData);
   };
 
   return (
@@ -378,7 +371,21 @@ export const LossPreventionConsultationForm: React.FC<Props> = ({ id = 'consulta
               </div>
 
               {/* Row 7: Full-width Gold Submit Button */}
-              <div className="pt-2">
+              
+              {errorMessage && (
+                <div className="p-3.5 rounded bg-[#8B1E1E]/20 border border-[#8B1E1E]/60 text-xs text-red-200 flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold">{errorMessage}</p>
+                    {isTimedOut && (
+                      <p className="mt-1 text-red-300">
+                        Priority Dispatch Hotline: <a href="tel:9542347231" className="underline font-bold text-white">(954) 234-7231</a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+<div className="pt-2">
                 <button
                   type="submit"
                   disabled={isSubmitting}

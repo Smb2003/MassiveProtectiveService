@@ -170,7 +170,7 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
               </motion.div>
             ))}
           </motion.div>
-        ) : (
+        ) : data?.variant === 'column-top-borders' ? (
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -182,10 +182,50 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className={`group relative flex flex-col items-start space-y-4 pt-6 ${
-                  isDark ? 'border-t border-white/10' : 'border-t border-zinc-200'
-                }`}
+                className={`group relative flex flex-col items-start space-y-4 border-t ${
+                  isDark ? 'border-white/15' : 'border-black/15'
+                } pt-6 sm:pt-8`}
               >
+                {pillar.icon && (
+                  <div className="w-8 h-8 flex items-center justify-start text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
+                    <ServiceIcon name={pillar.icon} className="w-6 h-6 stroke-[1.4]" />
+                  </div>
+                )}
+
+                <h3
+                  className={`text-xl sm:text-2xl font-serif font-normal group-hover:text-[#C5A880] transition-colors leading-snug ${
+                    isDark ? 'text-white' : 'text-[#0A111F]'
+                  }`}
+                >
+                  {pillar.title}
+                </h3>
+
+                <p
+                  className={`text-sm sm:text-[15px] font-sans font-light leading-relaxed ${
+                    isDark ? 'text-zinc-300' : 'text-zinc-600'
+                  }`}
+                >
+                  {pillar.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <>
+            <div className={`w-full h-px ${isDark ? 'bg-white/10' : 'bg-zinc-200'}`} />
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-60px' }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 pt-2"
+            >
+              {pillars.map((pillar, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={itemVariants}
+                  className="group relative flex flex-col items-start space-y-4"
+                >
                 {pillar.icon && (
                   <div className="w-10 h-10 flex items-center justify-start text-[#C5A880] group-hover:text-[#D4AF37] transition-colors">
                     <ServiceIcon name={pillar.icon} className="w-6 h-6 stroke-[1.6]" />
@@ -210,6 +250,28 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
               </motion.div>
             ))}
           </motion.div>
+        </>
+      )}
+
+        {/* Optional Verify Link (Screen 6 Reference) */}
+        {data?.verifyLink && (
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.5 }}
+            className="pt-2"
+          >
+            <a
+              href={data.verifyLink.href}
+              target={data.verifyLink.href.startsWith('http') ? '_blank' : undefined}
+              rel={data.verifyLink.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-sans text-[#C5A880] hover:text-[#D4AF37] transition-colors group"
+            >
+              <span>{data.verifyLink.label}</span>
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </motion.div>
         )}
 
         {/* Optional Footnote (Screen 6 Reference) */}
@@ -218,8 +280,8 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-20px' }}
-            transition={{ duration: 0.5 }}
-            className={`text-xs sm:text-[13px] font-sans font-light leading-relaxed max-w-5xl pt-2 ${
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className={`text-xs sm:text-[13px] font-sans font-light leading-relaxed max-w-5xl pt-1 ${
               isDark ? 'text-zinc-400' : 'text-[#64748B]'
             }`}
           >
@@ -254,6 +316,30 @@ export const ServiceWhyMassive: React.FC<Props> = ({ data }) => {
             >
               {data.footerBox.description}
             </p>
+          </motion.div>
+        )}
+
+        {/* Optional Credential Badges Grid (Screen 6 Miami Reference) */}
+        {data?.credentialBadges && data.credentialBadges.length > 0 && (
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6 }}
+            className="pt-10 sm:pt-14 border-t border-white/[0.06]"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+              {data.credentialBadges.map((badge, idx) => (
+                <div
+                  key={idx}
+                  className="bg-[#080E1B] border border-white/[0.08] hover:border-[#C5A880]/40 rounded-none p-5 sm:p-6 text-center flex items-center justify-center transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+                >
+                  <span className="text-xs sm:text-[13px] font-sans text-zinc-300 font-light tracking-wide">
+                    {badge}
+                  </span>
+                </div>
+              ))}
+            </div>
           </motion.div>
         )}
       </div>

@@ -16,7 +16,9 @@ export const ServiceFAQ: React.FC<Props> = ({ data }) => {
   const headline = data?.headline || 'Your questions, answered.';
   const faqs = data?.faqs || [];
 
-  const [openIndices, setOpenIndices] = useState<number[]>([0]);
+  const [openIndices, setOpenIndices] = useState<number[]>(() =>
+    data?.defaultAllOpen ? faqs.map((_, i) => i) : [0]
+  );
 
   const toggleFAQ = (index: number) => {
     setOpenIndices((prev) =>
@@ -35,7 +37,7 @@ export const ServiceFAQ: React.FC<Props> = ({ data }) => {
         isLight ? 'border-black/5' : 'border-white/5'
       }`}
     >
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         {/* Section Header */}
         <div className="max-w-3xl space-y-3">
           {eyebrow && (
@@ -83,23 +85,29 @@ export const ServiceFAQ: React.FC<Props> = ({ data }) => {
                   className="w-full flex items-center justify-between text-left gap-4 group cursor-pointer focus:outline-none"
                 >
                   <span
-                    className={`text-xl sm:text-2xl lg:text-[26px] font-serif font-normal ${
+                    className={`${
+                      data?.hideToggleIcons
+                        ? 'text-lg sm:text-xl lg:text-[22px] font-serif font-medium text-[#151D2A]'
+                        : 'text-xl sm:text-2xl lg:text-[26px] font-serif font-normal'
+                    } ${
                       isLight ? 'text-[#151D2A]' : 'text-white'
                     } group-hover:text-[#C5A880] transition-colors leading-snug`}
                   >
                     {faq.question}
                   </span>
-                  <div
-                    className={`${
-                      isLight ? 'text-[#A0886C]' : 'text-zinc-400'
-                    } group-hover:text-[#C5A880] shrink-0 transition-colors pr-2`}
-                  >
-                    {isOpen ? (
-                      <Minus className="w-5 h-5 stroke-[1.5]" />
-                    ) : (
-                      <Plus className="w-5 h-5 stroke-[1.5]" />
-                    )}
-                  </div>
+                  {!data?.hideToggleIcons && (
+                    <div
+                      className={`${
+                        isLight ? 'text-[#A0886C]' : 'text-[#C5A880]/80'
+                      } group-hover:text-[#C5A880] shrink-0 transition-colors pr-2`}
+                    >
+                      {isOpen ? (
+                        <Minus className="w-5 h-5 stroke-[1.5]" />
+                      ) : (
+                        <Plus className="w-5 h-5 stroke-[1.5]" />
+                      )}
+                    </div>
+                  )}
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -112,7 +120,9 @@ export const ServiceFAQ: React.FC<Props> = ({ data }) => {
                       className="overflow-hidden"
                     >
                       <p
-                        className={`pt-4 sm:pt-5 text-sm sm:text-base ${
+                        className={`${
+                          data?.hideToggleIcons ? 'pt-2.5 sm:pt-3' : 'pt-4 sm:pt-5'
+                        } text-sm sm:text-base ${
                           isLight ? 'text-[#4A5568]' : 'text-zinc-300'
                         } font-sans font-light leading-relaxed max-w-4xl`}
                       >

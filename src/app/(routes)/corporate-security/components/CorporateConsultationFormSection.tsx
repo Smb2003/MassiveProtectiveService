@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ChevronDown, Check, Loader2, ShieldCheck, Lock } from 'lucide-react';
+import { ChevronDown, Check, Loader2, ShieldCheck, Lock, AlertTriangle } from 'lucide-react';
+import { useConsultationSubmit } from '@/hooks/useConsultationSubmit';
 
 const NEED_TYPES = [
   'Executive Protection',
@@ -26,16 +27,11 @@ export const CorporateConsultationFormSection: React.FC = () => {
   });
 
   const [needDropdownOpen, setNeedDropdownOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const { isSubmitting, isSuccess, isTimedOut, errorMessage, fieldErrors, submitForm, reset } = useConsultationSubmit({ formSource: 'Corporate Security Consultation' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 1000);
+    await submitForm(formData);
   };
 
   return (
@@ -75,7 +71,7 @@ export const CorporateConsultationFormSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.14 }}
             className="text-sm sm:text-base text-zinc-300 font-sans font-light leading-relaxed max-w-3xl"
           >
-            Tell us what you&apos;re dealing with. We&apos;ll respond within 4 business hours — discreetly.
+            Tell us what you&apos;re dealing with. We&apos;ll respond within 4 business hours ΓÇö discreetly.
           </motion.p>
         </div>
 
@@ -188,7 +184,21 @@ export const CorporateConsultationFormSection: React.FC = () => {
                 <label className="block text-xs sm:text-[13px] font-sans text-zinc-300">
                   Type of Need
                 </label>
-                <button
+                
+              {errorMessage && (
+                <div className="p-3.5 rounded bg-[#8B1E1E]/20 border border-[#8B1E1E]/60 text-xs text-red-200 flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold">{errorMessage}</p>
+                    {isTimedOut && (
+                      <p className="mt-1 text-red-300">
+                        Priority Dispatch Hotline: <a href="tel:9542347231" className="underline font-bold text-white">(954) 234-7231</a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+              <button
                   type="button"
                   onClick={() => setNeedDropdownOpen(!needDropdownOpen)}
                   className="w-full bg-[#111B2C] border border-[#1E2D4A] focus:border-[#C5A880] text-white px-4 py-3.5 rounded-sm text-sm flex items-center justify-between text-left transition-colors cursor-pointer"

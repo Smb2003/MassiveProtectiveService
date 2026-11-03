@@ -64,19 +64,22 @@ export const ServiceProcessGrid: React.FC<Props> = ({ data }) => {
           </motion.h2>
         </div>
 
-        {/* 4 Process Steps Grid with Segmented Gold Top Bars */}
+        {/* Continuous Gold Divider Line */}
+        <div className="w-full h-px bg-[#C5A880]/35" />
+
+        {/* 4 Process Steps Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pt-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pt-2"
         >
           {data.steps.map((step, idx) => (
             <motion.div
               key={idx}
               variants={itemVariants}
-              className="group relative flex flex-col justify-start space-y-4 pt-6 border-t border-[#C5A880]/35"
+              className="group relative flex flex-col justify-start space-y-4"
             >
               {/* Step Number in refined gold serif */}
               <span className="block text-2xl sm:text-3xl font-serif font-light text-[#C5A880] tracking-wider">

@@ -9,7 +9,7 @@ export interface InquiryDraft {
   details: string;
   requiresArmedDriver: boolean;
   ndaRequested: boolean;
-  status: 'idle' | 'submitting' | 'submitted' | 'failed';
+  status: 'idle' | 'submitting' | 'submitted' | 'failed' | 'SUBMITTED';
 }
 
 const initialState: InquiryDraft = {

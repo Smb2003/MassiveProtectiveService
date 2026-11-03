@@ -24,12 +24,29 @@ export const ServiceClosingCTA: React.FC<Props> = ({ data }) => {
     href: 'tel:9542347231',
   };
 
+  const hideAccentLine = data?.hideAccentLine;
+  const hideTopGoldBorder = data?.hideTopGoldBorder;
+  const bgClass = data?.bgClassName || 'bg-[#0E1728]';
+
   return (
     <section
       aria-label="Discreet Security Consultation"
-      className="relative w-full bg-[#0E1728] text-white py-20 sm:py-28 lg:py-32 overflow-hidden border-t-2 border-[#C5A880]"
+      className={`relative w-full ${bgClass} text-white py-20 sm:py-28 lg:py-32 overflow-hidden ${
+        hideTopGoldBorder ? 'border-t border-white/5' : 'border-t-2 border-[#C5A880]'
+      }`}
     >
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 sm:space-y-8">
+        {/* Centered Gold Accent Line */}
+        {!hideAccentLine && (
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5 }}
+            className="w-12 h-[2px] bg-[#C5A880] mx-auto mb-4"
+          />
+        )}
+
         {/* Headline */}
         <motion.h2
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}

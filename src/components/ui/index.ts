@@ -7,3 +7,4 @@ export { TacticalCard } from './TacticalCard';
 export { SectionBadge } from './SectionBadge';
 export { GoldDivider } from './GoldDivider';
 export { PillTag } from './PillTag';
+export { TacticalInquiryForm } from './TacticalInquiryForm';

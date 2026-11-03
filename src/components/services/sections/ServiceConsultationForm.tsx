@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ChevronDown, Check, Loader2, ShieldCheck, Lock, Calendar } from 'lucide-react';
+import { ChevronDown, Check, Loader2, ShieldCheck, Lock, Calendar, AlertTriangle } from 'lucide-react';
+import { useConsultationSubmit } from '@/hooks/useConsultationSubmit';
 import { ServiceFormData } from '../types';
 
 interface Props {
@@ -22,7 +23,7 @@ export const ServiceConsultationForm: React.FC<Props> = ({ data }) => {
   const prefersReducedMotion = useReducedMotion();
 
   const eyebrow = data?.eyebrow || 'A PRIVATE FIRST CONVERSATION';
-  const headline = data?.headline || 'Request Residential Security — We Respond Within 2 Hours';
+  const headline = data?.headline || 'Request Residential Security ΓÇö We Respond Within 2 Hours';
   const subtitle =
     data?.subtitle ||
     "Tell us about your property and we'll design a security programme around it.";
@@ -77,16 +78,11 @@ export const ServiceConsultationForm: React.FC<Props> = ({ data }) => {
 
   const [coverageDropdownOpen, setCoverageDropdownOpen] = useState(false);
   const [startDropdownOpen, setStartDropdownOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const { isSubmitting, isSuccess, isTimedOut, errorMessage, fieldErrors, submitForm, reset } = useConsultationSubmit({ formSource: headline || 'Service Security Consultation' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 1000);
+    await submitForm(formData);
   };
 
   return (
@@ -151,7 +147,14 @@ export const ServiceConsultationForm: React.FC<Props> = ({ data }) => {
                   confidentially within 2 hours.
                 </p>
               </div>
-              <div className="pt-2">
+              <div className="pt-2 space-y-3">
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="px-6 py-2.5 rounded-sm border border-[#C5A880]/50 text-xs font-mono uppercase tracking-wider text-[#C5A880] hover:bg-[#C5A880]/10 transition-colors"
+                >
+                  Submit Another Inquiry
+                </button>
                 <a
                   href="tel:9542347231"
                   className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C5A880] hover:text-[#D4AF37] transition-colors"
@@ -482,6 +485,12 @@ export const ServiceConsultationForm: React.FC<Props> = ({ data }) => {
                 </>
               )}
 
+              
+              {errorMessage && (
+                <div className="p-3.5 rounded bg-[#8B1E1E]/20 border border-[#8B1E1E]/60 text-xs text-red-200 flex items-start gap-2.5">
+                  <div className="font-semibold">{errorMessage}</div>
+                </div>
+              )}
               {/* Submit Button */}
               <div className="pt-2">
                 <button

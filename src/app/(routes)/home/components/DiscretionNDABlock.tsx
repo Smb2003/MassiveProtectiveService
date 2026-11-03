@@ -1,16 +1,44 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Lock, FileText, ShieldAlert, PhoneCall, CheckCircle2, ChevronDown } from 'lucide-react';
+import {
+  Lock,
+  FileText,
+  ShieldAlert,
+  PhoneCall,
+  CheckCircle2,
+  ChevronDown,
+  Loader2,
+  AlertTriangle,
+} from 'lucide-react';
 import { TacticalCard } from '@/components/ui/TacticalCard';
 import { SectionBadge } from '@/components/ui/SectionBadge';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { useConsultationSubmit } from '@/hooks/useConsultationSubmit';
 
 export const DiscretionNDABlock: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
+
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    county: 'Palm Beach',
+    serviceType: 'Executive Protection',
+    ndaRequested: true,
+    requiresArmedDriver: false,
+  });
+
+  const { isSubmitting, isSuccess, isTimedOut, errorMessage, fieldErrors, submitForm, reset } =
+    useConsultationSubmit({
+      formSource: 'Homepage Sovereign NDA Block',
+    });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await submitForm(formData);
+  };
 
   return (
     <section
@@ -46,7 +74,9 @@ export const DiscretionNDABlock: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-sm sm:text-base text-zinc-400 font-sans leading-relaxed"
             >
-              We protect principals whose security cannot afford public exposure. Prior to deployment or operational briefings, Massive Protective Services executes legally binding mutual non-disclosure agreements (NDAs) adhering to Florida statutory protections.
+              We protect principals whose security cannot afford public exposure. Prior to deployment
+              or operational briefings, Massive Protective Services executes legally binding mutual
+              non-disclosure agreements (NDAs) adhering to Florida statutory protections.
             </motion.p>
 
             {/* Tactical Confidentiality Guarantees */}
@@ -59,8 +89,9 @@ export const DiscretionNDABlock: React.FC = () => {
                   <h4 className="text-sm font-bold text-white font-sans">
                     Pre-Engagement Mutual NDA Execution
                   </h4>
-                  <p className="text-xs text-zinc-400 leading-relaxed font-sans mt-0.5">
-                    No residential addresses, family names, travel manifests, or event locations are logged on public servers or shared beyond vetted command personnel.
+                  <p className="text-xs text-zinc-400 font-sans mt-0.5 leading-relaxed">
+                    Binding legal non-disclosure execution shielding identity, destinations, family
+                    members, assets, and operational threat profiles.
                   </p>
                 </div>
               </div>
@@ -71,10 +102,11 @@ export const DiscretionNDABlock: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white font-sans">
-                    Florida Chapter 493 Licensure Privilege
+                    Chapter 493 Statutory Confidentiality
                   </h4>
-                  <p className="text-xs text-zinc-400 leading-relaxed font-sans mt-0.5">
-                    Regulated by the Florida Department of Agriculture and Consumer Services (Lic. #B1400200) ensuring strict professional standards and statutory operational integrity.
+                  <p className="text-xs text-zinc-400 font-sans mt-0.5 leading-relaxed">
+                    Client engagements are insulated under strict Florida security regulatory
+                    oversight. Operations records are encrypted and air-gapped.
                   </p>
                 </div>
               </div>
@@ -85,28 +117,29 @@ export const DiscretionNDABlock: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white font-sans">
-                    24/7 Sovereign Tactical Command Access
+                    Zero Social Media / Zero Visibility Doctrine
                   </h4>
-                  <p className="text-xs text-zinc-400 leading-relaxed font-sans mt-0.5">
-                    Direct access to our Delray Beach command desk with instant Class G armed dispatch across Palm Beach, Broward, and Miami-Dade.
+                  <p className="text-xs text-zinc-400 font-sans mt-0.5 leading-relaxed">
+                    Operators sign permanent zero-disclosure clauses. No photographs, no geo-tagging,
+                    and zero public presence during or after deployment.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Direct Emergency Telephone Action */}
+            {/* Direct Priority Phone Link */}
             <div className="pt-2 flex items-center gap-4">
               <a
                 href="tel:9542347231"
-                className="inline-flex items-center gap-2.5 px-5 py-3 rounded bg-[#152037] hover:bg-[#1E2E4E] border border-[#C5A880]/40 text-xs font-mono font-bold text-white tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(212,175,55,0.15)]"
+                className="inline-flex items-center gap-2.5 text-xs font-mono font-medium tracking-wider text-[#C5A880] hover:text-[#D4AF37] transition-colors"
               >
                 <PhoneCall className="w-4 h-4 text-[#D4AF37]" />
-                <span>Priority Dispatch: (954) 234-7231</span>
+                <span>24/7 ENCRYPTED DISPATCH: (954) 234-7231</span>
               </a>
             </div>
           </div>
 
-          {/* Right Column: Visual Inquiry Form (Agent 3 will hook up Zod & Debounce) */}
+          {/* Right Column: Confidential Intake Form Card */}
           <div className="lg:col-span-6">
             <TacticalCard
               cornerTicks
@@ -134,122 +167,219 @@ export const DiscretionNDABlock: React.FC = () => {
                 </p>
               </div>
 
-              {/* Visual Form Layout (No submission handlers yet per Agent 2 boundaries) */}
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
-                      Principal or Agent Name
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g. John Doe / Family Office"
-                      className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 focus:border-[#D4AF37] text-white text-xs font-sans placeholder:text-zinc-600 outline-none transition-colors"
-                      readOnly
-                    />
+              {isSuccess ? (
+                <div className="py-10 text-center space-y-5">
+                  <div className="w-16 h-16 rounded-full bg-[#C5A880]/15 border border-[#C5A880]/40 flex items-center justify-center mx-auto text-[#D4AF37]">
+                    <CheckCircle2 className="w-8 h-8" />
                   </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
-                      Direct Secure Phone
-                    </label>
-                    <input
-                      type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 focus:border-[#D4AF37] text-white text-xs font-sans placeholder:text-zinc-600 outline-none transition-colors"
-                      readOnly
-                    />
+                  <h3 className="text-xl sm:text-2xl font-serif text-white">
+                    Confidential Intake Transmitted
+                  </h3>
+                  <p className="text-zinc-300 font-light text-xs sm:text-sm max-w-sm mx-auto leading-relaxed">
+                    Your inquiry has been received directly by the command desk. A licensed protective
+                    coordinator will contact you promptly under full NDA safeguards.
+                  </p>
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        reset();
+                        setFormData({
+                          fullName: '',
+                          phone: '',
+                          email: '',
+                          county: 'Palm Beach',
+                          serviceType: 'Executive Protection',
+                          ndaRequested: true,
+                          requiresArmedDriver: false,
+                        });
+                      }}
+                      className="px-6 py-2.5 rounded-sm border border-[#C5A880]/50 text-xs font-mono uppercase tracking-wider text-[#C5A880] hover:bg-[#C5A880]/10 transition-colors cursor-pointer"
+                    >
+                      Submit Another Intake
+                    </button>
                   </div>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
+                        Principal or Agent Name <span className="text-[#C5A880]">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. John Doe / Family Office"
+                        value={formData.fullName}
+                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 focus:border-[#D4AF37] text-white text-xs font-sans placeholder:text-zinc-600 outline-none transition-colors"
+                      />
+                      {fieldErrors.fullName && (
+                        <p className="text-[11px] text-[#8B1E1E] font-medium">
+                          {fieldErrors.fullName}
+                        </p>
+                      )}
+                    </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
-                      Confidential Email
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="principal@familyoffice.com"
-                      className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 focus:border-[#D4AF37] text-white text-xs font-sans placeholder:text-zinc-600 outline-none transition-colors"
-                      readOnly
-                    />
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
+                        Direct Secure Phone <span className="text-[#C5A880]">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="+1 (555) 000-0000"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 focus:border-[#D4AF37] text-white text-xs font-sans placeholder:text-zinc-600 outline-none transition-colors"
+                      />
+                      {fieldErrors.phone && (
+                        <p className="text-[11px] text-[#8B1E1E] font-medium">
+                          {fieldErrors.phone}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
+                        Confidential Email <span className="text-[#C5A880]">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="principal@familyoffice.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 focus:border-[#D4AF37] text-white text-xs font-sans placeholder:text-zinc-600 outline-none transition-colors"
+                      />
+                      {fieldErrors.email && (
+                        <p className="text-[11px] text-[#8B1E1E] font-medium">
+                          {fieldErrors.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
+                        Operational County
+                      </label>
+                      <div className="relative">
+                        <select
+                          aria-label="Operational County"
+                          className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 text-white text-xs font-sans appearance-none outline-none pr-8 cursor-pointer"
+                          value={formData.county}
+                          onChange={(e) => setFormData({ ...formData, county: e.target.value })}
+                        >
+                          <option value="Palm Beach">Palm Beach County</option>
+                          <option value="Broward">Broward County</option>
+                          <option value="Miami-Dade">Miami-Dade County</option>
+                          <option value="Visiting Principal">Visiting Principal (Statewide)</option>
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-zinc-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                    </div>
                   </div>
 
                   <div className="space-y-1.5">
                     <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
-                      Operational County
+                      Primary Service Requirement
                     </label>
                     <div className="relative">
                       <select
-                        aria-label="Operational County"
+                        aria-label="Primary Service Requirement"
                         className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 text-white text-xs font-sans appearance-none outline-none pr-8 cursor-pointer"
-                        defaultValue="Palm Beach"
+                        value={formData.serviceType}
+                        onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
                       >
-                        <option value="Palm Beach">Palm Beach County</option>
-                        <option value="Broward">Broward County</option>
-                        <option value="Miami-Dade">Miami-Dade County</option>
+                        <option value="Executive Protection">Executive Protection & Armed Driving</option>
+                        <option value="Estate Security">Estate & Residential Fortification</option>
+                        <option value="VIP/Celebrity">VIP & Celebrity Protection</option>
+                        <option value="Event Security">High-Stakes Event Security</option>
+                        <option value="Armed Security Officers">Class G Armed Security Officers</option>
+                        <option value="Concierge Security">Elite Concierge & Penthouse Security</option>
                       </select>
                       <ChevronDown className="w-4 h-4 text-zinc-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono uppercase tracking-wider text-zinc-300">
-                    Primary Service Requirement
-                  </label>
-                  <div className="relative">
-                    <select
-                      aria-label="Primary Service Requirement"
-                      className="w-full px-3.5 py-2.5 rounded bg-[#090D16] border border-white/10 text-white text-xs font-sans appearance-none outline-none pr-8 cursor-pointer"
-                      defaultValue="Executive Protection"
+                  {/* Tactical Checkboxes */}
+                  <div className="pt-2 space-y-2">
+                    <label className="flex items-center gap-2.5 text-xs text-zinc-300 font-sans cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={formData.ndaRequested}
+                        onChange={(e) =>
+                          setFormData({ ...formData, ndaRequested: e.target.checked })
+                        }
+                        className="w-4 h-4 rounded bg-[#0A0A0A] border-white/20 accent-[#D4AF37]"
+                      />
+                      <span>Require pre-consultation mutual Non-Disclosure Agreement (NDA)</span>
+                    </label>
+
+                    <label className="flex items-center gap-2.5 text-xs text-zinc-300 font-sans cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={formData.requiresArmedDriver}
+                        onChange={(e) =>
+                          setFormData({ ...formData, requiresArmedDriver: e.target.checked })
+                        }
+                        className="w-4 h-4 rounded bg-[#0A0A0A] border-white/20 accent-[#D4AF37]"
+                      />
+                      <span>Include armored motorcade transport / Class G armed driver</span>
+                    </label>
+                  </div>
+
+                  {/* Inline Error Banner */}
+                  {errorMessage && (
+                    <div className="p-3 rounded bg-[#8B1E1E]/20 border border-[#8B1E1E]/60 text-xs text-red-200 flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-semibold">{errorMessage}</p>
+                        {isTimedOut && (
+                          <p className="mt-1 text-red-300">
+                            Direct line:{' '}
+                            <a href="tel:9542347231" className="underline font-bold text-white">
+                              (954) 234-7231
+                            </a>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Submit Action Button */}
+                  <div className="pt-3">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className={`w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-sm font-bold text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(197,168,128,0.35)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] cursor-pointer ${
+                        isSubmitting
+                          ? 'bg-[#182338] text-[#C5A880] border border-[#C5A880]/40 cursor-wait'
+                          : 'bg-[#C5A880] hover:bg-[#D4AF37] text-[#0A0A0A]'
+                      }`}
                     >
-                      <option value="Executive Protection">Executive Protection &amp; Armed Driving</option>
-                      <option value="Estate Security">Estate &amp; Residential Fortification</option>
-                      <option value="VIP & Celebrity Protection">VIP &amp; Celebrity Protection</option>
-                      <option value="Event Security">High-Stakes Event Security (Art Basel)</option>
-                      <option value="Armed Officers">Class G Armed Security Officers</option>
-                      <option value="Concierge Security">Elite Concierge &amp; Penthouse Security</option>
-                    </select>
-                    <ChevronDown className="w-4 h-4 text-zinc-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-[#C5A880]" />
+                          <span>Securing Transmission...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Lock className="w-3.5 h-3.5 text-[#0A0A0A]" />
+                          <span>Transmit Confidential Intake</span>
+                        </>
+                      )}
+                    </button>
+
+                    <div className="mt-3 text-center text-[10px] font-mono text-zinc-500">
+                      FDACS LIC. #B1400200 · CHAPTER 493 STATUTES · 24/7 COMMAND
+                    </div>
                   </div>
-                </div>
-
-                {/* Tactical Checkboxes */}
-                <div className="pt-2 space-y-2">
-                  <label className="flex items-center gap-2.5 text-xs text-zinc-300 font-sans cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      className="w-4 h-4 rounded bg-[#0A0A0A] border-white/20 accent-[#D4AF37]"
-                    />
-                    <span>Require pre-consultation mutual Non-Disclosure Agreement (NDA)</span>
-                  </label>
-
-                  <label className="flex items-center gap-2.5 text-xs text-zinc-300 font-sans cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 rounded bg-[#0A0A0A] border-white/20 accent-[#D4AF37]"
-                    />
-                    <span>Include armored motorcade transport / Class G armed driver</span>
-                  </label>
-                </div>
-
-                {/* Submit Action Button Styled for Agent 3 Handover */}
-                <div className="pt-4">
-                  <Link
-                    href="/contact"
-                    className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-sm bg-[#C5A880] hover:bg-[#D4AF37] text-[#0A0A0A] font-bold text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(197,168,128,0.35)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] cursor-pointer"
-                  >
-                    <Lock className="w-3.5 h-3.5 text-[#0A0A0A]" />
-                    <span>Proceed to Secure Priority Transmission</span>
-                  </Link>
-
-                  <div className="mt-3 text-center text-[10px] font-mono text-zinc-500">
-                    FDACS LIC. #B1400200 · CHAPTER 493 STATUTES · 24/7 COMMAND
-                  </div>
-                </div>
-              </form>
+                </form>
+              )}
             </TacticalCard>
           </div>
         </div>
